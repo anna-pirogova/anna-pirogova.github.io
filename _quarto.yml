@@ -3,18 +3,25 @@ project:
   output-dir: docs
 
 website:
-  title: "anna-pirogova.github.io"
+  title: "Anna Pirogova — Data Scientist & Health Economist"
   navbar:
     left:
-      - href: index.qmd
-        text: Home
-      - about.qmd
+      - text: Home
+        href: index.qmd
+      - text: About
+        href: about.qmd
+      - text: Portfolio
+        href: portfolio.qmd
+      - text: Academic
+        href: research_academic_work.qmd
+  page-footer: 
+    center: "© 2025 Anna Pirogova"
 
 format:
   html:
     theme: cosmo
+    mainfont: "Lato"
+    monofont: "JetBrains Mono"
+    include-in-header: _includes/head.html
     css: styles.css
     toc: true
-
-
-

@@ -1,0 +1,88 @@
+---
+title: "Research"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+---
+
+## 🎓 Master's Thesis
+
+### **The Roles of Preventive and Curative Health Care in Economic Development**  
+**Istanbul Technical University, 2025**
+
+**Supervisor:** [Prof. Dr. Osman Doğan](https://sites.google.com/view/osmandogan/home)
+
+::: {.callout-note collapse="true" title="Abstract (EN)"}
+In this thesis, we examine the impact of curative and preventive health expenditures on economic performance across Organisation for Economic Co-operation and Development (OECD) countries from 1998 to 2021. The existing literature generally agrees that health spending has a positive effect on Gross Domestic Product (GDP) growth, in line with human capital theory. However, fewer studies make a distinction between types of health investment, such as curative (treating illnesses) and preventive (avoiding illnesses). We believe that optimizing these expenditures is crucial in situations involving policy trade-offs. The aim of this thesis is to estimate the causal effect of curative and preventive spending, and to explore interactions with education investment and differentiation by income level. Additionally, we aim to apply an innovative method, such as Double Machine Learning (DML), in an area where it has not been frequently used before.
+
+We obtained a balanced panel dataset of 29 OECD countries over the period 1998-2021 from OECD Health Statistics and the World Bank. The methodology employs two main approaches: traditional Fixed Effects (FE) models with year and country dummy variables, and a DML framework with high-dimensional predictors, utilizing five machine learning methods (Lasso, Ridge, Elastic Net, Random Forest, and Extreme Gradient Boosting (XGBoost)). Our primary variables of interest are curative and preventive health expenditures as a percentage of GDP. Controls include demographic variables (e.g., life expectancy, elderly population) and economic variables (e.g., savings, trade openness, short-term interest rate).
+
+FE models reveal that curative expenditure may show a nonlinear, U-shaped relationship with the income level. The turning point is 2.87% of GDP after passing that point, curative health spending positively contributes to economic development. This finding is consistent across contemporaneous and lagged FE models. Regarding preventive expenditure, we were unable to identify a significant impact on the logarithm of GDP per capita. Additionally, regressions based on income level showed that the positive effects of curative spending become significant only for higher-income OECD countries, but not for lower-income ones. We also found that higher education spending moderates the effect of curative health expenditure in promoting economic development. 
+
+The DML estimates provide interesting results as well. For curative spending, DML models agree on a convex relationship. Contrary to FE models, some DML models identified an inverted U-shaped relationship between preventive health expenditure and the dependent variable; however, for lagged preventive spending models disagree.
+
+We can derive important policy implications from these results. Firstly, curative health investment can increase the income level, but only if the spending exceeds the minimum threshold, and investment in education is also necessary. Secondly, we suggest that countries should first invest in education and then expand curative healthcare spending. Thirdly, countries need to improve the tracking and classification of preventive expenditures to assess their effect on economic performance with certainty. Our DML results suggest that returns to prevention may be underestimated due to current data limitations. For high-income countries, policymakers should consider a higher threshold for the curative spending for it to contribute to economic development. To sum up, this thesis demonastrates that we need to explore novel approaches to drive discoveries in health economics.
+:::
+
+::: {.callout-note collapse="true" title="Абстракт (RU)"}
+In this thesis, we examine the impact of curative and preventive health expenditures on economic performance across Organisation for Economic Co-operation and Development (OECD) countries from 1998 to 2021. The existing literature generally agrees that health spending has a positive effect on Gross Domestic Product (GDP) growth, in line with human capital theory. However, fewer studies make a distinction between types of health investment, such as curative (treating illnesses) and preventive (avoiding illnesses). We believe that optimizing these expenditures is crucial in situations involving policy trade-offs. The aim of this thesis is to estimate the causal effect of curative and preventive spending, and to explore interactions with education investment and differentiation by income level. Additionally, we aim to apply an innovative method, such as Double Machine Learning (DML), in an area where it has not been frequently used before.
+
+We obtained a balanced panel dataset of 29 OECD countries over the period 1998-2021 from OECD Health Statistics and the World Bank. The methodology employs two main approaches: traditional Fixed Effects (FE) models with year and country dummy variables, and a DML framework with high-dimensional predictors, utilizing five machine learning methods (Lasso, Ridge, Elastic Net, Random Forest, and Extreme Gradient Boosting (XGBoost)). Our primary variables of interest are curative and preventive health expenditures as a percentage of GDP. Controls include demographic variables (e.g., life expectancy, elderly population) and economic variables (e.g., savings, trade openness, short-term interest rate).
+
+FE models reveal that curative expenditure may show a nonlinear, U-shaped relationship with the income level. The turning point is 2.87% of GDP after passing that point, curative health spending positively contributes to economic development. This finding is consistent across contemporaneous and lagged FE models. Regarding preventive expenditure, we were unable to identify a significant impact on the logarithm of GDP per capita. Additionally, regressions based on income level showed that the positive effects of curative spending become significant only for higher-income OECD countries, but not for lower-income ones. We also found that higher education spending moderates the effect of curative health expenditure in promoting economic development. 
+
+The DML estimates provide interesting results as well. For curative spending, DML models agree on a convex relationship. Contrary to FE models, some DML models identified an inverted U-shaped relationship between preventive health expenditure and the dependent variable; however, for lagged preventive spending models disagree.
+
+We can derive important policy implications from these results. Firstly, curative health investment can increase the income level, but only if the spending exceeds the minimum threshold, and investment in education is also necessary. Secondly, we suggest that countries should first invest in education and then expand curative healthcare spending. Thirdly, countries need to improve the tracking and classification of preventive expenditures to assess their effect on economic performance with certainty. Our DML results suggest that returns to prevention may be underestimated due to current data limitations. For high-income countries, policymakers should consider a higher threshold for the curative spending for it to contribute to economic development. To sum up, this thesis demonastrates that we need to explore novel approaches to drive discoveries in health economics.
+:::
+
+
+#### My Thesis Presentation
+
+[View Presentation Slides (PDF)](files/thesis_presentation.pdf){target="_blank"}
+
+
+#### 🔗 Downloads
+- [Full Thesis (PDF, EN)](files/masters-thesis-en.pdf)
+- [Presentation](files/thesis_presentation.pdf)
+
+
+::: {.callout-tip collapse="true" title="Key Highlights"}
+- **Dataset**: 29 OECD countries (1998–2021) using OECD Statistics & World Bank data  
+- **Methods**:  
+  - Fixed Effects (FE) models with lags and dummies  
+  - Double Machine Learning (Lasso, Ridge, Elastic Net, RF, XGBoost)
+
+- **Main findings**:
+  - Curative spending shows **U-shaped** impact on GDP with a turning point at **2.87% of GDP**
+  - **Preventive spending not significant** in FE models; DML models show mixed patterns
+  - Curative effects are **income-sensitive**
+  - **Education spending** boosts curative effectiveness
+
+- **Policy implications: context matters**:
+  - Positive economic effects appear only at a later threshold for **high-income or high-education** settings
+  - **Health–education policy** alignment
+  - Efficiency benchmarks for health spending (GDP thresholds)
+  - Improved classification/tracking of preventive spending
+  
+:::
+
+---
+
+## 🎓 Bachelor's Thesis
+
+### 📗 *Title of Your Bachelor's Thesis*  
+**Your University Name, Year**
+
+#### 📄 Abstract
+This thesis explores...
+
+#### 🔗 Download
+- [📥 Full PDF](files/bachelors-thesis.pdf)
+
+---
+
+## 📬 Want to Know More?
+
+If you're interested in the data, code, or collaboration around this research, feel free to contact me or view my [portfolio](portfolio.qmd).

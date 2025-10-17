@@ -1,0 +1,114 @@
+---
+title: "Портфолио"
+format: html
+page-layout: full
+---
+
+## Машинное обучение и моделирование
+
+::: {.project-box}
+<div class="project-img-wrapper">
+  ![](images/comics-thumb.png){.project-img}
+</div>
+
+<div class="project-text">
+
+<div class="project-title">Система рекомендаций комиксов</div>
+
+<div class="project-desc">Коллаборативная фильтрация (ALS, user-item матрица, оценка RMSE).</div>
+
+<div class="project-link">[Подробнее →](projects/comics-rec.qmd)</div>
+
+</div>
+:::
+
+::: {.project-box}
+<div class="project-img-wrapper">
+  ![](images/employee-churn-thumb.png){.project-img}
+</div>
+
+<div class="project-text">
+
+<div class="project-title">Анализ оттока сотрудников в R&D</div>
+
+<div class="project-desc">SQL + R анализ: соединение таблиц, визуализация и логистическая регрессия. Выявлены ключевые факторы оттока (переработки, командировки), дэшборд для HR.</div>
+
+<div class="project-link">[Подробнее →](projects/employee-churn.qmd)</div>
+
+</div>
+:::
+
+::: {.project-box}
+<div class="project-img-wrapper">
+  ![](images/thesis-thumb.jpg){.project-img}
+</div>
+
+<div class="project-text">
+
+<div class="project-title">FE Models & Double ML (Магистерская диссертация)</div>
+
+<div class="project-desc">Фиксированные эффекты и двойное машинное обучение. CausalML, heterogeneity analysis.</div>
+
+<div class="project-link">[Подробнее →](projects/thesis.qmd)</div>
+
+</div>
+:::
+
+
+
+
+
+---
+
+## Анализ данных и дашборды
+
+::: {.project-box}
+<div class="project-img-wrapper">
+  ![](images/cycle-length-thumb.png){.project-img}
+</div>
+
+<div class="project-text">
+
+<div class="project-title">Анализ длины сделки: дашборд</div>
+
+<div class="project-desc">Дашборд по длине цикла сделки: расчет средних значений, линейные и столбчатые диаграммы. Данные анонимизированы для сохранения конфиденциальности. Создан в Zoho Analytics.</div>
+
+<div class="project-link">[Подробнее →](projects/cycle-length-dashboard.qmd)</div>
+
+</div>
+:::
+
+
+
+
+::: {.project-box}
+![](images/kickstarter-thumb.jpg){.project-img}
+**Анализ данных по Kickstarter**  
+EDA, визуализация успехов проектов по категориям, странам, суммам.  
+[Подробнее →](projects/kickstarter.md)
+:::
+
+::: {.project-box}
+![](images/flights-thumb.jpg){.project-img}
+**Анализ данных по авиаперевозкам**  
+Исследование пассажиропотока, трендов, сезонности.  
+[Подробнее →](projects/flights.md)
+:::
+
+---
+
+## Боты и автоматизация
+
+::: {.project-box}
+![](images/boardgame-bot-thumb.jpg){.project-img}
+**Telegram-бот: рекомендации настольных игр**  
+Бот на Python с inline-режимом, база игр, фильтрация по жанрам.  
+[Подробнее →](projects/boardgame-bot.md)
+:::
+
+::: {.project-box}
+![](images/hrv-bot-thumb.jpg){.project-img}
+**Telegram-бот: ежедневная готовность по HRV**  
+Интеграция с Fitbit API, расчёт тренировочной готовности, Telegram-уведомления.  
+[Подробнее →](projects/hrv-bot.md)
+:::

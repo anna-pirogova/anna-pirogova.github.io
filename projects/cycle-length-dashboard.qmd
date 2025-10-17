@@ -1,0 +1,11 @@
+---
+title: "Дашборд Анализ Длины Сделки"
+page-layout: full
+format: html
+---
+
+<img src="../images/cycle-length-dashboard1.png" style="width: 100%; margin-bottom: 2rem;">
+<img src="../images/cycle-length-dashboard2.png" style="width: 100%;">
+
+
+

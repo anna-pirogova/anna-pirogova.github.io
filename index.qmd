@@ -1,11 +1,41 @@
 ---
-title: "anna-pirogova.github.io"
+title: "Anna Pirogova"
+about:
+  template: broadside
+  image: profile.jpg
+  links:
+    - icon: twitter
+      text: twitter
+      href: https://twitter.com
+    - icon: github
+      text: Github
+      href: https://github.com
 ---
 
-This is a Quarto website.
+Анна Пирогова — специалист по аналитике и автоматизации с 4+ годами опыта в бизнес-процессах, CRM и визуализации данных. Применяет Python, R, SQL.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+## Образование
 
-```{r}
-1 + 1
-```
+**Стабульский Технический Университет (ITÜ)**| Турция | QS 326
+Магистратура по экономике | 2023–2025 | GPA: 3.75/4.0
+
+**Босфорский Университет (Bogaziçi)**| Турция  | QS 371
+Обмен по направлению «Бизнес-администрирование» | 2022–2023 | GPA: 3.42/4.0
+
+**НИУ ВШЭ, Санкт-Петербург**| Россия  
+Бакалавриат: Международный бизнес и менеджмент | 2019–2023 | GPA 8.86/10
+Minor-специализация: Data Science | 2019-2022
+Диплом с отличием | Средний балл: 8.86 / 10  
+
+
+## Опыт работы
+
+**PASV (EdTech стартап,Калифорния, США / удалённо)**  
+Бизнес-аналитик и менеджер процессов | Май 2021 – наст. время  
+
+**НИУ ВШЭ**, Санкт-Петербург, Россия  
+Ассистент преподавателя | Сентябрь 2020 – Июнь 2021  
+
+## Ключевые инструменты
+
+Python & R · SQL · Power BI · Streamlit · pandas · CRM (Zoho) · Docker · Git
