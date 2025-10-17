@@ -40,7 +40,7 @@ page-layout: full
 
 ::: {.project-box}
 <div class="project-img-wrapper">
-  ![](images/thesis-thumb.jpg){.project-img}
+  ![](images/doubleML-thumb.png){.project-img}
 </div>
 
 <div class="project-text">
@@ -55,12 +55,60 @@ page-layout: full
 :::
 
 
+::: {.project-box}
+<div class="project-img-wrapper">
+  ![](images/kickstarter-thumb.png){.project-img}
+</div>
+
+<div class="project-text">
+
+<div class="project-title">Анализ данных по Kickstarter</div>
+
+<div class="project-desc">Предсказание успешности проекта</div>
+
+<div class="project-link">[Подробнее →](projects/kickstarter.qmd)</div>
+
+</div>
+:::
+
+::: {.project-box}
+<div class="project-img-wrapper">
+  ![](images/flights-thumb.png){.project-img}
+</div>
+
+<div class="project-text">
+
+<div class="project-title">Анализ данных по авиаперевозкам</div>
+
+<div class="project-desc">Исследование оценок лаундж-зон и самолетов. </div>
+
+<div class="project-link">[Подробнее →](reports/flights.qmd)</div>
+
+</div>
+:::
 
 
 
 ---
 
-## Анализ данных и дашборды
+## Дашборды
+
+::: {.project-box}
+<div class="project-img-wrapper">
+  ![](images/employee-churn-thumb.png){.project-img}
+</div>
+
+<div class="project-text">
+
+<div class="project-title">Интерактивный дашборд: отток сотрудников в R&D</div>
+
+<div class="project-desc">Интерактивный дашборд, создан с помощью Shiny.</div>
+
+<div class="project-link">[Подробнее →](projects/employee-churn-dashboard.html)</div>
+
+</div>
+:::
+
 
 ::: {.project-box}
 <div class="project-img-wrapper">
@@ -79,36 +127,74 @@ page-layout: full
 :::
 
 
+::: {.project-box}
+<div class="project-img-wrapper">
+  ![](images/kickstarter-dashboard-thumb.png){.project-img}
+</div>
+
+<div class="project-text">
+
+<div class="project-title">Дашборд по Kickstarter</div>
+
+<div class="project-desc">Визуализация успехов проектов по категориям, времени запуска, названию.</div>
+
+<div class="project-link">[Подробнее →](reports/kickstarter-dashboard.html)</div>
+
+</div>
+:::
 
 
 ::: {.project-box}
-![](images/kickstarter-thumb.jpg){.project-img}
-**Анализ данных по Kickstarter**  
-EDA, визуализация успехов проектов по категориям, странам, суммам.  
-[Подробнее →](projects/kickstarter.md)
-:::
+<div class="project-img-wrapper">
+  ![](images/flights-thumb.png){.project-img}
+</div>
 
-::: {.project-box}
-![](images/flights-thumb.jpg){.project-img}
-**Анализ данных по авиаперевозкам**  
-Исследование пассажиропотока, трендов, сезонности.  
-[Подробнее →](projects/flights.md)
-:::
+<div class="project-text">
 
+<div class="project-title">Дашборд: авиаперевозки</div>
+
+<div class="project-desc">Исследование оценок лаундж-зон и самолетов. </div>
+
+<div class="project-link">[Подробнее →](reports/flights-dashboard.html)</div>
+
+</div>
+:::
 ---
 
 ## Боты и автоматизация
 
-::: {.project-box}
-![](images/boardgame-bot-thumb.jpg){.project-img}
-**Telegram-бот: рекомендации настольных игр**  
-Бот на Python с inline-режимом, база игр, фильтрация по жанрам.  
-[Подробнее →](projects/boardgame-bot.md)
-:::
 
 ::: {.project-box}
-![](images/hrv-bot-thumb.jpg){.project-img}
-**Telegram-бот: ежедневная готовность по HRV**  
-Интеграция с Fitbit API, расчёт тренировочной готовности, Telegram-уведомления.  
-[Подробнее →](projects/hrv-bot.md)
+<div class="project-img-wrapper">
+  ![](images/boardgame-bot-thumb.png){.project-img}
+</div>
+
+<div class="project-text">
+
+<div class="project-title">Telegram-бот: рекомендации настольных игр</div>
+
+<div class="project-desc">Бот на R с inline-режимом, база игр, фильтрация по жанрам </div>
+
+<div class="project-link">[Подробнее →](projects/boardgame-bot.qmd)</div>
+
+</div>
 :::
+
+
+::: {.project-box}
+<div class="project-img-wrapper">
+  ![](images/hrv-bot-thumb.png){.project-img}
+</div>
+
+<div class="project-text">
+
+<div class="project-title">Telegram-бот: ежедневная готовность по HRV</div>
+
+<div class="project-desc">Интеграция с Fitbit API, расчёт тренировочной готовности, Telegram-уведомления. </div>
+
+<div class="project-link">[Подробнее →](projects/hrv-bot.qmd)</div>
+
+</div>
+:::
+
+

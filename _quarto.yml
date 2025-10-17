@@ -6,13 +6,11 @@ website:
   title: "Anna Pirogova — Data Scientist & Health Economist"
   navbar:
     left:
-      - text: Home
+      - text: Обо мне
         href: index.qmd
-      - text: About
-        href: about.qmd
-      - text: Portfolio
+      - text: Портфолио
         href: portfolio.qmd
-      - text: Academic
+      - text: Исследования
         href: research_academic_work.qmd
   page-footer: 
     center: "© 2025 Anna Pirogova"

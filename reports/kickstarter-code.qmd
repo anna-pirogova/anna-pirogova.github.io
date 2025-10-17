@@ -1,0 +1,238 @@
+---
+title: "Kickstarter - код"
+format: html
+
+---
+
+Data and libraries 
+
+```{r}
+#| eval: false
+library(readr)
+library(lubridate)
+library(rpart)
+library(rpart.plot)
+library(chron)
+library(dplyr)
+library(stringr)
+library(ggplot2)
+library(coin)
+kickstarter = read_csv("~/documents/kickstarter.csv")
+
+```
+
+
+Data transformation
+```{r}
+#| eval: false
+kickstarter$category=as.factor(kickstarter$category)
+kickstarter$main_category=as.factor(kickstarter$main_category)
+kickstarter$currency=as.factor(kickstarter$currency)
+kickstarter$state=as.factor(kickstarter$state)
+kickstarter$country=as.factor(kickstarter$country)
+kickstarter=kickstarter %>% mutate(launch_date=as.Date(launched)) %>% mutate(period_length=deadline-launch_date,month = month(launch_date),day = day(launch_date),launch_season = case_when(
+    month > 2 & month < 6 ~ "spring",
+    month > 5 & month < 9 ~ "summer",
+    month > 8 & month < 12 ~ "autumn",
+    month > 11 | month < 3 ~ "winter",
+    TRUE ~ "unknown"),launch_weekday=weekdays.Date(kickstarter$launch_date))
+kickstarter=kickstarter %>% mutate(launch_weekday=weekdays.Date(kickstarter$launch_date),gen_category=str_trim(paste(main_category,", ",category)),name_length=str_length(name),number_of_words=str_count(name,'\\w+'),n_caps_in_name=str_count(name, "\\b[A-Z]{2,}\\b"),has_caps_in_name=case_when(n_caps_in_name>0 ~ 1, TRUE ~ 0),launch_hour=hour(launched), launch_dayPart = case_when(
+    launch_hour > 5 & launch_hour < 13 ~ "morning",
+    launch_hour > 11 & launch_hour < 18 ~ "afternoon",
+    launch_hour > 17 & launch_hour < 23 ~ "evening",
+    launch_hour > 22 | launch_hour < 6 ~ "night",
+    TRUE ~ "unknown"
+  ),launch_is_weekend=is.weekend(launched),cat_is_cat=case_when(as.character(main_category)==as.character(category)~1,TRUE~0),name_has_marks=as.factor(case_when(str_detect(name,":")==TRUE|str_detect(name,";")==TRUE|str_detect(name,"!")==TRUE~1,TRUE~0)))
+                                                                          
+kickstarter$launch_season=factor(kickstarter$launch_season,levels=c("autumn","winter","spring","summer"))
+
+kickstarter$launch_weekday=factor(kickstarter$launch_weekday,levels=c("Monday","Tuesday", "Wednesday","Thursday","Friday","Saturday","Sunday"))
+
+kickstarter$has_caps_in_name=as.factor(kickstarter$has_caps_in_name)
+kickstarter$cat_is_cat=as.factor(kickstarter$cat_is_cat)
+kickstarter$name_has_marks=as.factor(kickstarter$name_has_marks)
+kickstarter$gen_category=kickstarter$gen_category %>% str_replace_all(" ,  ",", ")
+
+kickstarter=kickstarter %>% mutate(gen_cat_length=str_length(gen_category),gen_cat_number_words=str_count(gen_category,'\\w+'),gen_cat_first_letter=str_extract(gen_category,'[A-Z]'),cat_length=str_length(category),cat_number_words=str_count(category,'\\w+'),cat_first_letter=str_extract(category,'[A-Z]'))
+
+kickstarter$gen_category=as.factor(kickstarter$gen_category)
+kickstarter$launch_dayPart=factor(kickstarter$launch_dayPart,levels=c("morning","afternoon","evening","night"))
+kickstarter$gen_cat_first_letter=as.factor(kickstarter$gen_cat_first_letter)
+kickstarter$cat_first_letter=as.factor(kickstarter$cat_first_letter)
+```
+
+
+
+
+Projects by sum graph
+```{r}
+#| eval: false
+kickstarter_sum_by_category=kickstarter %>% group_by(state,main_category) %>% filter(state=="successful") %>% summarise(average_sum=round(mean(usd_goal_real),1)) %>% arrange(-average_sum) %>% ungroup() %>% dplyr::select(-state)
+knitr::kable(kickstarter_sum_by_category,col.names=c("Основная категория","Средняя сумма реализованных проектов"))
+```
+
+Success of projects by category
+```{r}
+#| eval: false
+kickstarter_num_cat=kickstarter %>% group_by(main_category) %>% summarise(cnt=n())
+kickstarter_success_perc=kickstarter %>% filter(state=="successful") %>% group_by(main_category) %>% summarise(s_cnt=n())
+kickstarter_success_by_cat=left_join(kickstarter_success_perc,kickstarter_num_cat,by="main_category") %>% mutate(success_percentage=s_cnt/cnt*100) %>% arrange(-success_percentage) %>% select(-s_cnt,-cnt)
+knitr::kable(kickstarter_success_by_cat,col.names=c("Основная категория","Процент успешных проектов"))
+```
+
+
+Graph Success of projects by category
+```{r}
+#| eval: false
+ggplot(data=kickstarter)+geom_bar(aes(x=main_category,fill=state),stat="count")+xlab('Название основной категории')+ylab('Количество проектов')+ggtitle('Успешность проектов в разных категориях')+coord_flip()+scale_fill_brewer(name="Состояние проекта",labels=c("неуспешный","успешный"),palette="Pastel1")
+```
+
+
+Graph Success of projects by Launch hour
+```{r}
+#| eval: false
+ggplot(data=kickstarter)+geom_bar(aes(x=launch_hour,fill=state),position="fill")+ylab("Доля проектов")+xlab("Час запуска")+scale_fill_brewer(name="Состояние проекта",labels=c("неуспешный","успешный"),palette="Pastel1")+ggtitle("Успешность проектов по часу запуска")
+
+```
+
+
+
+Graph Success of projects by title length
+```{r}
+#| eval: false
+ggplot(data=kickstarter)+geom_boxplot(aes(x=state,y=name_length, fill=state))+ylab("Длина названия проекта в символах")+xlab("Состояние проекта")+scale_x_discrete(labels=c("Неуспешный", "Успешный"))+ggtitle("Успешность проекта по длине названия проекта")+scale_fill_brewer(name="Состояние проекта",labels=c("неуспешный","успешный"),palette="Pastel1")
+```
+
+
+
+Graph Success of projects by special symbols in the title
+```{r}
+#| eval: false
+ggplot(data=kickstarter)+geom_bar(aes(x=name_has_marks,fill=state),position="fill")+xlab("Наличие символов :,!,; в названии проекта")+ylab("Доля проектов")+ggtitle("Успешность проекта по наличию символов в названии")+
+scale_fill_brewer(name="Состояние проекта",labels=c("неуспешный","успешный"),palette="Pastel1")+scale_x_discrete(labels=c("Нет", "Да"))
+```
+
+
+
+Model creation
+```{r}
+#| eval: false
+# "зерно" для генератора случайных чисел
+set.seed(1234) 
+
+# Возьмем 80% как обучающие
+kickstarter_train = kickstarter %>% dplyr::sample_frac(.8)
+
+# создаем тестовый набор данных
+# через анти-джойн, чтобы убрать все наблюдения, попавшие в обучающую выборку
+kickstarter_test = dplyr::anti_join(kickstarter, kickstarter_train, by = 'id') %>% dplyr::select(-id)
+
+kickstarter_train = kickstarter_train %>% dplyr::select(-id)
+
+## Построение сложной модели
+## Попробуем построить сложную модель, которая даст нам наибольшую точность. Будем использовать пакет rpart и все переменные, кроме id, name, date, deadline, launched, backers, launch date.
+
+### Необрезанное дерево
+tree1 <- rpart(state ~ category+gen_category+main_category+usd_goal_real+day+country+month+launch_season+currency+period_length+launch_weekday+name_length+number_of_words+has_caps_in_name+n_caps_in_name+launch_dayPart+launch_hour+launch_is_weekend+cat_is_cat+name_has_marks+cat_length+cat_number_words+cat_first_letter+gen_cat_length+gen_cat_number_words+gen_cat_first_letter, method= "class",data = kickstarter_train, control = rpart.control(cp = 0.001)) 
+rpart.plot::rpart.plot(tree1)
+
+#предсказываем
+pred.kick_train1 = predict(tree1, type="class")
+
+## **accuracy на тренировочной выборке**
+t1 = table(pred.kick_train1, kickstarter_train$state)
+acc1tr=(t1[1,1] + t1[2,2])/sum(t1)
+acc1tr
+
+## **accuracy на тестовой выборке**
+pred.kick_test1 = predict(tree1, newdata = kickstarter_test, type="class")
+t11 = table(pred.kick_test1, kickstarter_test$state)
+acc1ts=(t11[1,1] + t11[2,2])/sum(t11)
+acc1ts
+
+## Как мы видим, accuracy на тестовой выборке получилась ниже, но незначительно. Обрежем дерево по оптимальному значению cp
+
+## **строим таблицу cp**
+set.seed(1234)
+cp_tbl = printcp(tree1)
+set.seed(1234)
+min_cp = cp_tbl %>%
+  as.data.frame() %>% 
+  arrange(xerror) %>% 
+  head(n = 1)
+min_cp
+
+## **обрезаем дерево через prune()** 
+tree2 = prune(tree1, cp = 0.00102)
+
+rpart.plot::rpart.plot(tree2,fallen.leaves = FALSE,faclen=2)
+# делаем предсказание
+pred.kick_train2=predict(tree2, type="class")
+
+## **accuracy для тренировочной выборки**
+t2 = table(pred.kick_train2, kickstarter_train$state)
+acc2tr=(t2[1,1] + t2[2,2])/sum(t2)
+acc2tr
+
+## **accuracy для тестовой выборки**
+#предсказание
+pred.kick_test2 = predict(tree2, kickstarter_test, type="class")
+#accuracy
+t22 = table(pred.kick_test2, kickstarter_test$state)
+acc2ts=(t22[1,1] + t22[2,2])/sum(t22)
+acc2ts
+## Итак, мы построили сложную модель и достигли точности 0.7018865 на тренировочной и 0.6823584 для тестовой выборки. Попробуем построить менее сложную модель, но при этом попробуем достигнуть сходной точности.
+## Для этого с помощью команды summary посмотрим, какие переменные модель 1 посчитала наиболее важными и построим модель на их основе.
+
+## Less complicated model creation
+
+## **модель и accuracy для тренировочной выборки**
+
+
+#summary(tree2)
+tree0 <- rpart(state ~ gen_category+category+main_category+usd_goal_real+number_of_words+cat_is_cat+launch_dayPart+period_length+cat_length+cat_number_words+cat_first_letter+gen_cat_length+gen_cat_number_words+gen_cat_first_letter+country+currency+launch_weekday+launch_hour, method="class",data=kickstarter_train)
+pred0 = predict(tree0, type="class")
+#функция для переноса строк для названий переменных
+split.fun <- function(x, labs, digits, varlen, faclen)
+{
+    # replace commas with spaces (needed for strwrap)
+    labs <- gsub(",", " ", labs)
+    for(i in 1:length(labs)) {
+        # split labs[i] into multiple lines
+        labs[i] <- paste(strwrap(labs[i], width=32), collapse="\n")
+    }
+    labs
+}
+prp(tree0, split.fun=split.fun,fallen.leaves=FALSE,extra=4,cex=0.45)
+
+t0 = table(pred0, kickstarter_train$state)
+
+(t0[1,1] + t0[2,2])/sum(t0)
+
+## **accuracy для тестовой выборки**
+pred00 = predict(tree0, kickstarter_test, type="class")
+
+t = table(pred00, kickstarter_test$state)
+
+(t[1,1] + t[2,2])/sum(t)
+```
+
+
+
+Итак, мы построили намного более простую модель, имеющую точность 0.6758971 для тренировочной и 0.6693204 для тестовой выборок. 
+
+```{r}
+a=(0.7018865-0.6758971)*100
+b=(0.6823584-0.6693204)*100
+paste("При этом, точность упрощенной модели на",round(a,2),"% (тренировочная выборка) и ", round(b,2),"% (тестовая выборка) ниже, чем у на порядок более сложной модели")
+```
+
+Importance of variables in the model
+```{r}
+treecat = c('category','gen_category','main_category','cat_first_letter','gen_cat_first_letter','cat_length','usd_goal_real','period_length','name_length','country','launch_dayPart','number_of_words','currency','launch_hour')
+meaning = c('категория','категория и подкатегория проекта','основная категория','первая буква названия категории','первая буква названия подкатегории','длина названия категории в символах','целевая сумма проекта в долларах','длительность сборов','длина названия проекта в символах','страна','часть дня, в которую был запущен проект','количество слов в названии проекта','валюта','час запуска')
+importance=c('25','22','12','11','10','7','4','3','1','1','1','1','1','1')
+catable = data.frame(treecat, meaning,importance)
+knitr::kable(catable, col.names = c("Переменная","Расшифровка названия","Значимость"))
+```
+

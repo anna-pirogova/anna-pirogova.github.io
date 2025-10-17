@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Kickstarter - код – Anna Pirogova — Data Scientist &amp; Health Economist</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&amp;family=Lato&amp;display=swap" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Anna Pirogova — Data Scientist &amp; Health Economist</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Обо мне</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../portfolio.html"> 
+<span class="menu-text">Портфолио</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../research_academic_work.html"> 
+<span class="menu-text">Исследования</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Kickstarter - код</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Data and libraries</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart.plot)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(chron)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(coin)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>kickstarter <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"~/documents/kickstarter.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Data transformation</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>kickstarter<span class="sc">$</span>category<span class="ot">=</span><span class="fu">as.factor</span>(kickstarter<span class="sc">$</span>category)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>kickstarter<span class="sc">$</span>main_category<span class="ot">=</span><span class="fu">as.factor</span>(kickstarter<span class="sc">$</span>main_category)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>kickstarter<span class="sc">$</span>currency<span class="ot">=</span><span class="fu">as.factor</span>(kickstarter<span class="sc">$</span>currency)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>kickstarter<span class="sc">$</span>state<span class="ot">=</span><span class="fu">as.factor</span>(kickstarter<span class="sc">$</span>state)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>kickstarter<span class="sc">$</span>country<span class="ot">=</span><span class="fu">as.factor</span>(kickstarter<span class="sc">$</span>country)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>kickstarter<span class="ot">=</span>kickstarter <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">launch_date=</span><span class="fu">as.Date</span>(launched)) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">period_length=</span>deadline<span class="sc">-</span>launch_date,<span class="at">month =</span> <span class="fu">month</span>(launch_date),<span class="at">day =</span> <span class="fu">day</span>(launch_date),<span class="at">launch_season =</span> <span class="fu">case_when</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    month <span class="sc">&gt;</span> <span class="dv">2</span> <span class="sc">&amp;</span> month <span class="sc">&lt;</span> <span class="dv">6</span> <span class="sc">~</span> <span class="st">"spring"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    month <span class="sc">&gt;</span> <span class="dv">5</span> <span class="sc">&amp;</span> month <span class="sc">&lt;</span> <span class="dv">9</span> <span class="sc">~</span> <span class="st">"summer"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    month <span class="sc">&gt;</span> <span class="dv">8</span> <span class="sc">&amp;</span> month <span class="sc">&lt;</span> <span class="dv">12</span> <span class="sc">~</span> <span class="st">"autumn"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    month <span class="sc">&gt;</span> <span class="dv">11</span> <span class="sc">|</span> month <span class="sc">&lt;</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"winter"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"unknown"</span>),<span class="at">launch_weekday=</span><span class="fu">weekdays.Date</span>(kickstarter<span class="sc">$</span>launch_date))</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>kickstarter<span class="ot">=</span>kickstarter <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">launch_weekday=</span><span class="fu">weekdays.Date</span>(kickstarter<span class="sc">$</span>launch_date),<span class="at">gen_category=</span><span class="fu">str_trim</span>(<span class="fu">paste</span>(main_category,<span class="st">", "</span>,category)),<span class="at">name_length=</span><span class="fu">str_length</span>(name),<span class="at">number_of_words=</span><span class="fu">str_count</span>(name,<span class="st">'</span><span class="sc">\\</span><span class="st">w+'</span>),<span class="at">n_caps_in_name=</span><span class="fu">str_count</span>(name, <span class="st">"</span><span class="sc">\\</span><span class="st">b[A-Z]{2,}</span><span class="sc">\\</span><span class="st">b"</span>),<span class="at">has_caps_in_name=</span><span class="fu">case_when</span>(n_caps_in_name<span class="sc">&gt;</span><span class="dv">0</span> <span class="sc">~</span> <span class="dv">1</span>, <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">0</span>),<span class="at">launch_hour=</span><span class="fu">hour</span>(launched), <span class="at">launch_dayPart =</span> <span class="fu">case_when</span>(</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    launch_hour <span class="sc">&gt;</span> <span class="dv">5</span> <span class="sc">&amp;</span> launch_hour <span class="sc">&lt;</span> <span class="dv">13</span> <span class="sc">~</span> <span class="st">"morning"</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    launch_hour <span class="sc">&gt;</span> <span class="dv">11</span> <span class="sc">&amp;</span> launch_hour <span class="sc">&lt;</span> <span class="dv">18</span> <span class="sc">~</span> <span class="st">"afternoon"</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    launch_hour <span class="sc">&gt;</span> <span class="dv">17</span> <span class="sc">&amp;</span> launch_hour <span class="sc">&lt;</span> <span class="dv">23</span> <span class="sc">~</span> <span class="st">"evening"</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    launch_hour <span class="sc">&gt;</span> <span class="dv">22</span> <span class="sc">|</span> launch_hour <span class="sc">&lt;</span> <span class="dv">6</span> <span class="sc">~</span> <span class="st">"night"</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"unknown"</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  ),<span class="at">launch_is_weekend=</span><span class="fu">is.weekend</span>(launched),<span class="at">cat_is_cat=</span><span class="fu">case_when</span>(<span class="fu">as.character</span>(main_category)<span class="sc">==</span><span class="fu">as.character</span>(category)<span class="sc">~</span><span class="dv">1</span>,<span class="cn">TRUE</span><span class="sc">~</span><span class="dv">0</span>),<span class="at">name_has_marks=</span><span class="fu">as.factor</span>(<span class="fu">case_when</span>(<span class="fu">str_detect</span>(name,<span class="st">":"</span>)<span class="sc">==</span><span class="cn">TRUE</span><span class="sc">|</span><span class="fu">str_detect</span>(name,<span class="st">";"</span>)<span class="sc">==</span><span class="cn">TRUE</span><span class="sc">|</span><span class="fu">str_detect</span>(name,<span class="st">"!"</span>)<span class="sc">==</span><span class="cn">TRUE</span><span class="sc">~</span><span class="dv">1</span>,<span class="cn">TRUE</span><span class="sc">~</span><span class="dv">0</span>)))</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>                                                                          </span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>kickstarter<span class="sc">$</span>launch_season<span class="ot">=</span><span class="fu">factor</span>(kickstarter<span class="sc">$</span>launch_season,<span class="at">levels=</span><span class="fu">c</span>(<span class="st">"autumn"</span>,<span class="st">"winter"</span>,<span class="st">"spring"</span>,<span class="st">"summer"</span>))</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>kickstarter<span class="sc">$</span>launch_weekday<span class="ot">=</span><span class="fu">factor</span>(kickstarter<span class="sc">$</span>launch_weekday,<span class="at">levels=</span><span class="fu">c</span>(<span class="st">"Monday"</span>,<span class="st">"Tuesday"</span>, <span class="st">"Wednesday"</span>,<span class="st">"Thursday"</span>,<span class="st">"Friday"</span>,<span class="st">"Saturday"</span>,<span class="st">"Sunday"</span>))</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>kickstarter<span class="sc">$</span>has_caps_in_name<span class="ot">=</span><span class="fu">as.factor</span>(kickstarter<span class="sc">$</span>has_caps_in_name)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>kickstarter<span class="sc">$</span>cat_is_cat<span class="ot">=</span><span class="fu">as.factor</span>(kickstarter<span class="sc">$</span>cat_is_cat)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>kickstarter<span class="sc">$</span>name_has_marks<span class="ot">=</span><span class="fu">as.factor</span>(kickstarter<span class="sc">$</span>name_has_marks)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>kickstarter<span class="sc">$</span>gen_category<span class="ot">=</span>kickstarter<span class="sc">$</span>gen_category <span class="sc">%&gt;%</span> <span class="fu">str_replace_all</span>(<span class="st">" ,  "</span>,<span class="st">", "</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>kickstarter<span class="ot">=</span>kickstarter <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">gen_cat_length=</span><span class="fu">str_length</span>(gen_category),<span class="at">gen_cat_number_words=</span><span class="fu">str_count</span>(gen_category,<span class="st">'</span><span class="sc">\\</span><span class="st">w+'</span>),<span class="at">gen_cat_first_letter=</span><span class="fu">str_extract</span>(gen_category,<span class="st">'[A-Z]'</span>),<span class="at">cat_length=</span><span class="fu">str_length</span>(category),<span class="at">cat_number_words=</span><span class="fu">str_count</span>(category,<span class="st">'</span><span class="sc">\\</span><span class="st">w+'</span>),<span class="at">cat_first_letter=</span><span class="fu">str_extract</span>(category,<span class="st">'[A-Z]'</span>))</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>kickstarter<span class="sc">$</span>gen_category<span class="ot">=</span><span class="fu">as.factor</span>(kickstarter<span class="sc">$</span>gen_category)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>kickstarter<span class="sc">$</span>launch_dayPart<span class="ot">=</span><span class="fu">factor</span>(kickstarter<span class="sc">$</span>launch_dayPart,<span class="at">levels=</span><span class="fu">c</span>(<span class="st">"morning"</span>,<span class="st">"afternoon"</span>,<span class="st">"evening"</span>,<span class="st">"night"</span>))</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>kickstarter<span class="sc">$</span>gen_cat_first_letter<span class="ot">=</span><span class="fu">as.factor</span>(kickstarter<span class="sc">$</span>gen_cat_first_letter)</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>kickstarter<span class="sc">$</span>cat_first_letter<span class="ot">=</span><span class="fu">as.factor</span>(kickstarter<span class="sc">$</span>cat_first_letter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Projects by sum graph</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>kickstarter_sum_by_category<span class="ot">=</span>kickstarter <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(state,main_category) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(state<span class="sc">==</span><span class="st">"successful"</span>) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">average_sum=</span><span class="fu">round</span>(<span class="fu">mean</span>(usd_goal_real),<span class="dv">1</span>)) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="sc">-</span>average_sum) <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>state)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(kickstarter_sum_by_category,<span class="at">col.names=</span><span class="fu">c</span>(<span class="st">"Основная категория"</span>,<span class="st">"Средняя сумма реализованных проектов"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Success of projects by category</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>kickstarter_num_cat<span class="ot">=</span>kickstarter <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(main_category) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">cnt=</span><span class="fu">n</span>())</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>kickstarter_success_perc<span class="ot">=</span>kickstarter <span class="sc">%&gt;%</span> <span class="fu">filter</span>(state<span class="sc">==</span><span class="st">"successful"</span>) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(main_category) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">s_cnt=</span><span class="fu">n</span>())</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>kickstarter_success_by_cat<span class="ot">=</span><span class="fu">left_join</span>(kickstarter_success_perc,kickstarter_num_cat,<span class="at">by=</span><span class="st">"main_category"</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">success_percentage=</span>s_cnt<span class="sc">/</span>cnt<span class="sc">*</span><span class="dv">100</span>) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="sc">-</span>success_percentage) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>s_cnt,<span class="sc">-</span>cnt)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(kickstarter_success_by_cat,<span class="at">col.names=</span><span class="fu">c</span>(<span class="st">"Основная категория"</span>,<span class="st">"Процент успешных проектов"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Graph Success of projects by category</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>kickstarter)<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x=</span>main_category,<span class="at">fill=</span>state),<span class="at">stat=</span><span class="st">"count"</span>)<span class="sc">+</span><span class="fu">xlab</span>(<span class="st">'Название основной категории'</span>)<span class="sc">+</span><span class="fu">ylab</span>(<span class="st">'Количество проектов'</span>)<span class="sc">+</span><span class="fu">ggtitle</span>(<span class="st">'Успешность проектов в разных категориях'</span>)<span class="sc">+</span><span class="fu">coord_flip</span>()<span class="sc">+</span><span class="fu">scale_fill_brewer</span>(<span class="at">name=</span><span class="st">"Состояние проекта"</span>,<span class="at">labels=</span><span class="fu">c</span>(<span class="st">"неуспешный"</span>,<span class="st">"успешный"</span>),<span class="at">palette=</span><span class="st">"Pastel1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Graph Success of projects by Launch hour</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>kickstarter)<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x=</span>launch_hour,<span class="at">fill=</span>state),<span class="at">position=</span><span class="st">"fill"</span>)<span class="sc">+</span><span class="fu">ylab</span>(<span class="st">"Доля проектов"</span>)<span class="sc">+</span><span class="fu">xlab</span>(<span class="st">"Час запуска"</span>)<span class="sc">+</span><span class="fu">scale_fill_brewer</span>(<span class="at">name=</span><span class="st">"Состояние проекта"</span>,<span class="at">labels=</span><span class="fu">c</span>(<span class="st">"неуспешный"</span>,<span class="st">"успешный"</span>),<span class="at">palette=</span><span class="st">"Pastel1"</span>)<span class="sc">+</span><span class="fu">ggtitle</span>(<span class="st">"Успешность проектов по часу запуска"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Graph Success of projects by title length</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>kickstarter)<span class="sc">+</span><span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>state,<span class="at">y=</span>name_length, <span class="at">fill=</span>state))<span class="sc">+</span><span class="fu">ylab</span>(<span class="st">"Длина названия проекта в символах"</span>)<span class="sc">+</span><span class="fu">xlab</span>(<span class="st">"Состояние проекта"</span>)<span class="sc">+</span><span class="fu">scale_x_discrete</span>(<span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Неуспешный"</span>, <span class="st">"Успешный"</span>))<span class="sc">+</span><span class="fu">ggtitle</span>(<span class="st">"Успешность проекта по длине названия проекта"</span>)<span class="sc">+</span><span class="fu">scale_fill_brewer</span>(<span class="at">name=</span><span class="st">"Состояние проекта"</span>,<span class="at">labels=</span><span class="fu">c</span>(<span class="st">"неуспешный"</span>,<span class="st">"успешный"</span>),<span class="at">palette=</span><span class="st">"Pastel1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Graph Success of projects by special symbols in the title</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>kickstarter)<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x=</span>name_has_marks,<span class="at">fill=</span>state),<span class="at">position=</span><span class="st">"fill"</span>)<span class="sc">+</span><span class="fu">xlab</span>(<span class="st">"Наличие символов :,!,; в названии проекта"</span>)<span class="sc">+</span><span class="fu">ylab</span>(<span class="st">"Доля проектов"</span>)<span class="sc">+</span><span class="fu">ggtitle</span>(<span class="st">"Успешность проекта по наличию символов в названии"</span>)<span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_fill_brewer</span>(<span class="at">name=</span><span class="st">"Состояние проекта"</span>,<span class="at">labels=</span><span class="fu">c</span>(<span class="st">"неуспешный"</span>,<span class="st">"успешный"</span>),<span class="at">palette=</span><span class="st">"Pastel1"</span>)<span class="sc">+</span><span class="fu">scale_x_discrete</span>(<span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Нет"</span>, <span class="st">"Да"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Model creation</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># "зерно" для генератора случайных чисел</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>) </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Возьмем 80% как обучающие</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>kickstarter_train <span class="ot">=</span> kickstarter <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">sample_frac</span>(.<span class="dv">8</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># создаем тестовый набор данных</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># через анти-джойн, чтобы убрать все наблюдения, попавшие в обучающую выборку</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>kickstarter_test <span class="ot">=</span> dplyr<span class="sc">::</span><span class="fu">anti_join</span>(kickstarter, kickstarter_train, <span class="at">by =</span> <span class="st">'id'</span>) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>id)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>kickstarter_train <span class="ot">=</span> kickstarter_train <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>id)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Построение сложной модели</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Попробуем построить сложную модель, которая даст нам наибольшую точность. Будем использовать пакет rpart и все переменные, кроме id, name, date, deadline, launched, backers, launch date.</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="do">### Необрезанное дерево</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>tree1 <span class="ot">&lt;-</span> <span class="fu">rpart</span>(state <span class="sc">~</span> category<span class="sc">+</span>gen_category<span class="sc">+</span>main_category<span class="sc">+</span>usd_goal_real<span class="sc">+</span>day<span class="sc">+</span>country<span class="sc">+</span>month<span class="sc">+</span>launch_season<span class="sc">+</span>currency<span class="sc">+</span>period_length<span class="sc">+</span>launch_weekday<span class="sc">+</span>name_length<span class="sc">+</span>number_of_words<span class="sc">+</span>has_caps_in_name<span class="sc">+</span>n_caps_in_name<span class="sc">+</span>launch_dayPart<span class="sc">+</span>launch_hour<span class="sc">+</span>launch_is_weekend<span class="sc">+</span>cat_is_cat<span class="sc">+</span>name_has_marks<span class="sc">+</span>cat_length<span class="sc">+</span>cat_number_words<span class="sc">+</span>cat_first_letter<span class="sc">+</span>gen_cat_length<span class="sc">+</span>gen_cat_number_words<span class="sc">+</span>gen_cat_first_letter, <span class="at">method=</span> <span class="st">"class"</span>,<span class="at">data =</span> kickstarter_train, <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">cp =</span> <span class="fl">0.001</span>)) </span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>rpart.plot<span class="sc">::</span><span class="fu">rpart.plot</span>(tree1)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co">#предсказываем</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>pred.kick_train1 <span class="ot">=</span> <span class="fu">predict</span>(tree1, <span class="at">type=</span><span class="st">"class"</span>)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="do">## **accuracy на тренировочной выборке**</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">=</span> <span class="fu">table</span>(pred.kick_train1, kickstarter_train<span class="sc">$</span>state)</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>acc1tr<span class="ot">=</span>(t1[<span class="dv">1</span>,<span class="dv">1</span>] <span class="sc">+</span> t1[<span class="dv">2</span>,<span class="dv">2</span>])<span class="sc">/</span><span class="fu">sum</span>(t1)</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>acc1tr</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="do">## **accuracy на тестовой выборке**</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>pred.kick_test1 <span class="ot">=</span> <span class="fu">predict</span>(tree1, <span class="at">newdata =</span> kickstarter_test, <span class="at">type=</span><span class="st">"class"</span>)</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>t11 <span class="ot">=</span> <span class="fu">table</span>(pred.kick_test1, kickstarter_test<span class="sc">$</span>state)</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>acc1ts<span class="ot">=</span>(t11[<span class="dv">1</span>,<span class="dv">1</span>] <span class="sc">+</span> t11[<span class="dv">2</span>,<span class="dv">2</span>])<span class="sc">/</span><span class="fu">sum</span>(t11)</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>acc1ts</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="do">## Как мы видим, accuracy на тестовой выборке получилась ниже, но незначительно. Обрежем дерево по оптимальному значению cp</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="do">## **строим таблицу cp**</span></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>cp_tbl <span class="ot">=</span> <span class="fu">printcp</span>(tree1)</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>min_cp <span class="ot">=</span> cp_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(xerror) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="at">n =</span> <span class="dv">1</span>)</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>min_cp</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a><span class="do">## **обрезаем дерево через prune()** </span></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>tree2 <span class="ot">=</span> <span class="fu">prune</span>(tree1, <span class="at">cp =</span> <span class="fl">0.00102</span>)</span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>rpart.plot<span class="sc">::</span><span class="fu">rpart.plot</span>(tree2,<span class="at">fallen.leaves =</span> <span class="cn">FALSE</span>,<span class="at">faclen=</span><span class="dv">2</span>)</span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a><span class="co"># делаем предсказание</span></span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>pred.kick_train2<span class="ot">=</span><span class="fu">predict</span>(tree2, <span class="at">type=</span><span class="st">"class"</span>)</span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a><span class="do">## **accuracy для тренировочной выборки**</span></span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">=</span> <span class="fu">table</span>(pred.kick_train2, kickstarter_train<span class="sc">$</span>state)</span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>acc2tr<span class="ot">=</span>(t2[<span class="dv">1</span>,<span class="dv">1</span>] <span class="sc">+</span> t2[<span class="dv">2</span>,<span class="dv">2</span>])<span class="sc">/</span><span class="fu">sum</span>(t2)</span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>acc2tr</span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a><span class="do">## **accuracy для тестовой выборки**</span></span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a><span class="co">#предсказание</span></span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a>pred.kick_test2 <span class="ot">=</span> <span class="fu">predict</span>(tree2, kickstarter_test, <span class="at">type=</span><span class="st">"class"</span>)</span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a><span class="co">#accuracy</span></span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a>t22 <span class="ot">=</span> <span class="fu">table</span>(pred.kick_test2, kickstarter_test<span class="sc">$</span>state)</span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>acc2ts<span class="ot">=</span>(t22[<span class="dv">1</span>,<span class="dv">1</span>] <span class="sc">+</span> t22[<span class="dv">2</span>,<span class="dv">2</span>])<span class="sc">/</span><span class="fu">sum</span>(t22)</span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>acc2ts</span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a><span class="do">## Итак, мы построили сложную модель и достигли точности 0.7018865 на тренировочной и 0.6823584 для тестовой выборки. Попробуем построить менее сложную модель, но при этом попробуем достигнуть сходной точности.</span></span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a><span class="do">## Для этого с помощью команды summary посмотрим, какие переменные модель 1 посчитала наиболее важными и построим модель на их основе.</span></span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a><span class="do">## Less complicated model creation</span></span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a><span class="do">## **модель и accuracy для тренировочной выборки**</span></span>
+<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(tree2)</span></span>
+<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a>tree0 <span class="ot">&lt;-</span> <span class="fu">rpart</span>(state <span class="sc">~</span> gen_category<span class="sc">+</span>category<span class="sc">+</span>main_category<span class="sc">+</span>usd_goal_real<span class="sc">+</span>number_of_words<span class="sc">+</span>cat_is_cat<span class="sc">+</span>launch_dayPart<span class="sc">+</span>period_length<span class="sc">+</span>cat_length<span class="sc">+</span>cat_number_words<span class="sc">+</span>cat_first_letter<span class="sc">+</span>gen_cat_length<span class="sc">+</span>gen_cat_number_words<span class="sc">+</span>gen_cat_first_letter<span class="sc">+</span>country<span class="sc">+</span>currency<span class="sc">+</span>launch_weekday<span class="sc">+</span>launch_hour, <span class="at">method=</span><span class="st">"class"</span>,<span class="at">data=</span>kickstarter_train)</span>
+<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a>pred0 <span class="ot">=</span> <span class="fu">predict</span>(tree0, <span class="at">type=</span><span class="st">"class"</span>)</span>
+<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a><span class="co">#функция для переноса строк для названий переменных</span></span>
+<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a>split.fun <span class="ot">&lt;-</span> <span class="cf">function</span>(x, labs, digits, varlen, faclen)</span>
+<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a>    <span class="co"># replace commas with spaces (needed for strwrap)</span></span>
+<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a>    labs <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">","</span>, <span class="st">" "</span>, labs)</span>
+<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(labs)) {</span>
+<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a>        <span class="co"># split labs[i] into multiple lines</span></span>
+<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a>        labs[i] <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="fu">strwrap</span>(labs[i], <span class="at">width=</span><span class="dv">32</span>), <span class="at">collapse=</span><span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a>    labs</span>
+<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a><span class="fu">prp</span>(tree0, <span class="at">split.fun=</span>split.fun,<span class="at">fallen.leaves=</span><span class="cn">FALSE</span>,<span class="at">extra=</span><span class="dv">4</span>,<span class="at">cex=</span><span class="fl">0.45</span>)</span>
+<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a>t0 <span class="ot">=</span> <span class="fu">table</span>(pred0, kickstarter_train<span class="sc">$</span>state)</span>
+<span id="cb9-90"><a href="#cb9-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-91"><a href="#cb9-91" aria-hidden="true" tabindex="-1"></a>(t0[<span class="dv">1</span>,<span class="dv">1</span>] <span class="sc">+</span> t0[<span class="dv">2</span>,<span class="dv">2</span>])<span class="sc">/</span><span class="fu">sum</span>(t0)</span>
+<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a><span class="do">## **accuracy для тестовой выборки**</span></span>
+<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a>pred00 <span class="ot">=</span> <span class="fu">predict</span>(tree0, kickstarter_test, <span class="at">type=</span><span class="st">"class"</span>)</span>
+<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-96"><a href="#cb9-96" aria-hidden="true" tabindex="-1"></a>t <span class="ot">=</span> <span class="fu">table</span>(pred00, kickstarter_test<span class="sc">$</span>state)</span>
+<span id="cb9-97"><a href="#cb9-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a>(t[<span class="dv">1</span>,<span class="dv">1</span>] <span class="sc">+</span> t[<span class="dv">2</span>,<span class="dv">2</span>])<span class="sc">/</span><span class="fu">sum</span>(t)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Итак, мы построили намного более простую модель, имеющую точность 0.6758971 для тренировочной и 0.6693204 для тестовой выборок.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span>(<span class="fl">0.7018865-0.6758971</span>)<span class="sc">*</span><span class="dv">100</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>b<span class="ot">=</span>(<span class="fl">0.6823584-0.6693204</span>)<span class="sc">*</span><span class="dv">100</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">"При этом, точность упрощенной модели на"</span>,<span class="fu">round</span>(a,<span class="dv">2</span>),<span class="st">"% (тренировочная выборка) и "</span>, <span class="fu">round</span>(b,<span class="dv">2</span>),<span class="st">"% (тестовая выборка) ниже, чем у на порядок более сложной модели"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "При этом, точность упрощенной модели на 2.6 % (тренировочная выборка) и  1.3 % (тестовая выборка) ниже, чем у на порядок более сложной модели"</code></pre>
+</div>
+</div>
+<p>Importance of variables in the model</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>treecat <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'category'</span>,<span class="st">'gen_category'</span>,<span class="st">'main_category'</span>,<span class="st">'cat_first_letter'</span>,<span class="st">'gen_cat_first_letter'</span>,<span class="st">'cat_length'</span>,<span class="st">'usd_goal_real'</span>,<span class="st">'period_length'</span>,<span class="st">'name_length'</span>,<span class="st">'country'</span>,<span class="st">'launch_dayPart'</span>,<span class="st">'number_of_words'</span>,<span class="st">'currency'</span>,<span class="st">'launch_hour'</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>meaning <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'категория'</span>,<span class="st">'категория и подкатегория проекта'</span>,<span class="st">'основная категория'</span>,<span class="st">'первая буква названия категории'</span>,<span class="st">'первая буква названия подкатегории'</span>,<span class="st">'длина названия категории в символах'</span>,<span class="st">'целевая сумма проекта в долларах'</span>,<span class="st">'длительность сборов'</span>,<span class="st">'длина названия проекта в символах'</span>,<span class="st">'страна'</span>,<span class="st">'часть дня, в которую был запущен проект'</span>,<span class="st">'количество слов в названии проекта'</span>,<span class="st">'валюта'</span>,<span class="st">'час запуска'</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>importance<span class="ot">=</span><span class="fu">c</span>(<span class="st">'25'</span>,<span class="st">'22'</span>,<span class="st">'12'</span>,<span class="st">'11'</span>,<span class="st">'10'</span>,<span class="st">'7'</span>,<span class="st">'4'</span>,<span class="st">'3'</span>,<span class="st">'1'</span>,<span class="st">'1'</span>,<span class="st">'1'</span>,<span class="st">'1'</span>,<span class="st">'1'</span>,<span class="st">'1'</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>catable <span class="ot">=</span> <span class="fu">data.frame</span>(treecat, meaning,importance)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(catable, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Переменная"</span>,<span class="st">"Расшифровка названия"</span>,<span class="st">"Значимость"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 55%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Переменная</th>
+<th style="text-align: left;">Расшифровка названия</th>
+<th style="text-align: left;">Значимость</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">category</td>
+<td style="text-align: left;">категория</td>
+<td style="text-align: left;">25</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gen_category</td>
+<td style="text-align: left;">категория и подкатегория проекта</td>
+<td style="text-align: left;">22</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">main_category</td>
+<td style="text-align: left;">основная категория</td>
+<td style="text-align: left;">12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cat_first_letter</td>
+<td style="text-align: left;">первая буква названия категории</td>
+<td style="text-align: left;">11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gen_cat_first_letter</td>
+<td style="text-align: left;">первая буква названия подкатегории</td>
+<td style="text-align: left;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cat_length</td>
+<td style="text-align: left;">длина названия категории в символах</td>
+<td style="text-align: left;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">usd_goal_real</td>
+<td style="text-align: left;">целевая сумма проекта в долларах</td>
+<td style="text-align: left;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">period_length</td>
+<td style="text-align: left;">длительность сборов</td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">name_length</td>
+<td style="text-align: left;">длина названия проекта в символах</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">country</td>
+<td style="text-align: left;">страна</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">launch_dayPart</td>
+<td style="text-align: left;">часть дня, в которую был запущен проект</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">number_of_words</td>
+<td style="text-align: left;">количество слов в названии проекта</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">currency</td>
+<td style="text-align: left;">валюта</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">launch_hour</td>
+<td style="text-align: left;">час запуска</td>
+<td style="text-align: left;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© 2025 Anna Pirogova</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

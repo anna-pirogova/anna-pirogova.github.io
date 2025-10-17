@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Research – Anna Pirogova — Data Scientist &amp; Health Economist</title>
+<title>Исследования – Anna Pirogova — Data Scientist &amp; Health Economist</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -92,19 +92,15 @@ ul.task-list li input[type="checkbox"] {
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="./index.html"> 
-<span class="menu-text">Home</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
-<span class="menu-text">About</span></a>
+<span class="menu-text">Обо мне</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./portfolio.html"> 
-<span class="menu-text">Portfolio</span></a>
+<span class="menu-text">Портфолио</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./research_academic_work.html" aria-current="page"> 
-<span class="menu-text">Academic</span></a>
+<span class="menu-text">Исследования</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -123,8 +119,8 @@ ul.task-list li input[type="checkbox"] {
    
   <ul class="collapse">
   <li><a href="#masters-thesis" id="toc-masters-thesis" class="nav-link active" data-scroll-target="#masters-thesis">🎓 Master’s Thesis</a></li>
-  <li><a href="#bachelors-thesis" id="toc-bachelors-thesis" class="nav-link" data-scroll-target="#bachelors-thesis">🎓 Bachelor’s Thesis</a></li>
-  <li><a href="#want-to-know-more" id="toc-want-to-know-more" class="nav-link" data-scroll-target="#want-to-know-more">📬 Want to Know More?</a></li>
+  <li><a href="#bachelors-thesis" id="toc-bachelors-thesis" class="nav-link" data-scroll-target="#bachelors-thesis">Bachelor’s Thesis</a></li>
+  <li><a href="#want-to-know-more" id="toc-want-to-know-more" class="nav-link" data-scroll-target="#want-to-know-more">Want to Know More?</a></li>
   </ul>
 </nav>
     </div>
@@ -133,7 +129,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Research</h1>
+<h1 class="title">Исследования</h1>
 </div>
 
 
@@ -188,11 +184,11 @@ Abstract (EN)
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>In this thesis, we examine the impact of curative and preventive health expenditures on economic performance across Organisation for Economic Co-operation and Development (OECD) countries from 1998 to 2021. The existing literature generally agrees that health spending has a positive effect on Gross Domestic Product (GDP) growth, in line with human capital theory. However, fewer studies make a distinction between types of health investment, such as curative (treating illnesses) and preventive (avoiding illnesses). We believe that optimizing these expenditures is crucial in situations involving policy trade-offs. The aim of this thesis is to estimate the causal effect of curative and preventive spending, and to explore interactions with education investment and differentiation by income level. Additionally, we aim to apply an innovative method, such as Double Machine Learning (DML), in an area where it has not been frequently used before.</p>
-<p>We obtained a balanced panel dataset of 29 OECD countries over the period 1998-2021 from OECD Health Statistics and the World Bank. The methodology employs two main approaches: traditional Fixed Effects (FE) models with year and country dummy variables, and a DML framework with high-dimensional predictors, utilizing five machine learning methods (Lasso, Ridge, Elastic Net, Random Forest, and Extreme Gradient Boosting (XGBoost)). Our primary variables of interest are curative and preventive health expenditures as a percentage of GDP. Controls include demographic variables (e.g., life expectancy, elderly population) and economic variables (e.g., savings, trade openness, short-term interest rate).</p>
-<p>FE models reveal that curative expenditure may show a nonlinear, U-shaped relationship with the income level. The turning point is 2.87% of GDP after passing that point, curative health spending positively contributes to economic development. This finding is consistent across contemporaneous and lagged FE models. Regarding preventive expenditure, we were unable to identify a significant impact on the logarithm of GDP per capita. Additionally, regressions based on income level showed that the positive effects of curative spending become significant only for higher-income OECD countries, but not for lower-income ones. We also found that higher education spending moderates the effect of curative health expenditure in promoting economic development.</p>
-<p>The DML estimates provide interesting results as well. For curative spending, DML models agree on a convex relationship. Contrary to FE models, some DML models identified an inverted U-shaped relationship between preventive health expenditure and the dependent variable; however, for lagged preventive spending models disagree.</p>
-<p>We can derive important policy implications from these results. Firstly, curative health investment can increase the income level, but only if the spending exceeds the minimum threshold, and investment in education is also necessary. Secondly, we suggest that countries should first invest in education and then expand curative healthcare spending. Thirdly, countries need to improve the tracking and classification of preventive expenditures to assess their effect on economic performance with certainty. Our DML results suggest that returns to prevention may be underestimated due to current data limitations. For high-income countries, policymakers should consider a higher threshold for the curative spending for it to contribute to economic development. To sum up, this thesis demonastrates that we need to explore novel approaches to drive discoveries in health economics.</p>
+<p>В данной магистерской диссертации рассматривается влияние расходов на лечебное и профилактическое здравоохранение на экономические показатели стран — членов Организации экономического сотрудничества и развития (ОЭСР) за период с 1998 по 2021 год. Существующая литература в целом подтверждает положительное влияние расходов на здравоохранение на рост валового внутреннего продукта (ВВП), что согласуется с теорией человеческого капитала. Однако немногие исследования дифференцируют типы инвестиций в здравоохранение, такие как лечебные (лечение заболеваний) и профилактические (предотвращение заболеваний). Мы считаем, что оптимизация этих расходов особенно важна в условиях необходимости политического выбора. Цель данной работы — оценить причинно-следственное влияние расходов на лечение и профилактику, а также исследовать взаимодействие с инвестициями в образование и различия в зависимости от уровня дохода. Кроме того, мы ставим задачу применить инновационный метод двойного машинного обучения (Double Machine Learning, DML) в области, где он пока используется редко.</p>
+<p>Для анализа был собран сбалансированный панельный набор данных по 29 странам ОЭСР за 1998–2021 годы, основанный на статистике здравоохранения ОЭСР и данных Всемирного банка. Методология включает два основных подхода: традиционные модели с фиксированными эффектами (Fixed Effects, FE) с фиктивными переменными по годам и странам, а также подход DML с использованием высокоразмерных предикторов и пяти методов машинного обучения (Lasso, Ridge, Elastic Net, Random Forest и XGBoost). Основные переменные интереса — доля расходов на лечение и профилактику в процентах от ВВП. Контрольные переменные включают демографические показатели (например, ожидаемая продолжительность жизни, доля пожилого населения) и экономические переменные (например, уровень сбережений, открытость торговли, краткосрочная процентная ставка).</p>
+<p>Результаты моделей с фиксированными эффектами показывают, что расходы на лечение могут иметь нелинейную U-образную зависимость от уровня дохода. Точка перегиба составляет 2.87% от ВВП — при превышении этого порога лечение начинает оказывать положительное влияние на экономическое развитие. Этот результат сохраняется как для моделей с текущими, так и с лагированными значениями. В отношении профилактических расходов выявить значимого влияния на логарифм ВВП на душу населения не удалось. Также регрессии, основанные на уровне дохода, показали, что положительный эффект от расходов на лечение становится значимым только для стран с высоким уровнем дохода, но не для стран с низким доходом. Кроме того, было установлено, что более высокие расходы на образование усиливают положительное влияние лечебных расходов на экономическое развитие.</p>
+<p>Оценки, полученные с помощью DML, также дают интересные результаты. Для лечебных расходов DML-модели подтверждают выпуклую зависимость. В отличие от моделей FE, некоторые DML-модели выявили обратно U-образную (inverted U-shaped) зависимость между профилактическими расходами и ВВП, хотя для лагированных значений модели дают противоречивые результаты.</p>
+<p>На основе этих выводов можно сформулировать важные рекомендации для политики. Во-первых, инвестиции в лечение могут повышать уровень дохода, но только при условии превышения минимального порога, а также при наличии инвестиций в образование. Во-вторых, странам следует сначала инвестировать в образование, а затем увеличивать расходы на лечение. В-третьих, необходимо улучшить систему учета и классификации профилактических расходов, чтобы можно было более точно оценивать их влияние на экономику. Наши результаты по DML позволяют предположить, что текущие данные занижают эффективность профилактики. Для стран с высоким уровнем дохода имеет смысл рассматривать более высокий порог расходов на лечение как условие их эффективности для экономического роста. В целом, данная работа демонстрирует необходимость использования новых подходов для получения новых знаний в экономике здравоохранения.</p>
 </div>
 </div>
 </div>
@@ -250,25 +246,25 @@ Key Highlights
 </section>
 </section>
 <section id="bachelors-thesis" class="level2">
-<h2 class="anchored" data-anchor-id="bachelors-thesis">🎓 Bachelor’s Thesis</h2>
+<h2 class="anchored" data-anchor-id="bachelors-thesis">Bachelor’s Thesis</h2>
 <section id="title-of-your-bachelors-thesis" class="level3">
-<h3 class="anchored" data-anchor-id="title-of-your-bachelors-thesis">📗 <em>Title of Your Bachelor’s Thesis</em></h3>
+<h3 class="anchored" data-anchor-id="title-of-your-bachelors-thesis"><em>Title of Your Bachelor’s Thesis</em></h3>
 <p><strong>Your University Name, Year</strong></p>
 <section id="abstract" class="level4">
-<h4 class="anchored" data-anchor-id="abstract">📄 Abstract</h4>
+<h4 class="anchored" data-anchor-id="abstract">Abstract</h4>
 <p>This thesis explores…</p>
 </section>
 <section id="download" class="level4">
-<h4 class="anchored" data-anchor-id="download">🔗 Download</h4>
+<h4 class="anchored" data-anchor-id="download">Download</h4>
 <ul>
-<li><a href="files/bachelors-thesis.pdf">📥 Full PDF</a></li>
+<li><a href="files/bachelors-thesis.pdf">Full PDF</a></li>
 </ul>
 <hr>
 </section>
 </section>
 </section>
 <section id="want-to-know-more" class="level2">
-<h2 class="anchored" data-anchor-id="want-to-know-more">📬 Want to Know More?</h2>
+<h2 class="anchored" data-anchor-id="want-to-know-more">Want to Know More?</h2>
 <p>If you’re interested in the data, code, or collaboration around this research, feel free to contact me or view my <a href="./portfolio.html">portfolio</a>.</p>
 
 
