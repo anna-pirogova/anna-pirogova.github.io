@@ -104,7 +104,7 @@ page-layout: full
 
 <div class="project-desc">Интерактивный дашборд, создан с помощью Shiny.</div>
 
-<div class="project-link">[Подробнее →](projects/employee-churn-dashboard.html)</div>
+<div class="project-link">[Подробнее →](reports/employee-churn-dashboard.html)</div>
 
 </div>
 :::
