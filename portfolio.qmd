@@ -82,7 +82,7 @@ page-layout: full
 
 <div class="project-desc">Исследование оценок лаундж-зон и самолетов. </div>
 
-<div class="project-link">[Подробнее →](reports/flights.qmd)</div>
+<div class="project-link">[Подробнее →](projects/flights.qmd)</div>
 
 </div>
 :::

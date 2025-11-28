@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Telegram-бот: рекомендации настольных игр – Anna Pirogova — Data Scientist &amp; Health Economist</title>
+<title>Анализ данных по авиаперевозкам – Anna Pirogova — Data Scientist &amp; Health Economist</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,9 +118,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#обзор-проекта" id="toc-обзор-проекта" class="nav-link active" data-scroll-target="#обзор-проекта">Обзор проекта</a></li>
-  <li><a href="#данные-и-методы" id="toc-данные-и-методы" class="nav-link" data-scroll-target="#данные-и-методы">Данные и методы</a></li>
-  <li><a href="#основные-выводы" id="toc-основные-выводы" class="nav-link" data-scroll-target="#основные-выводы">Основные выводы</a></li>
+  <li><a href="#обзор-проекта" id="toc-обзор-проекта" class="nav-link active" data-scroll-target="#обзор-проекта">1. Обзор проекта</a>
+  <ul class="collapse">
+  <li><a href="#цель" id="toc-цель" class="nav-link" data-scroll-target="#цель">Цель</a></li>
+  <li><a href="#ключевые-выводы" id="toc-ключевые-выводы" class="nav-link" data-scroll-target="#ключевые-выводы">Ключевые выводы</a></li>
+  <li><a href="#рекомендации" id="toc-рекомендации" class="nav-link" data-scroll-target="#рекомендации">Рекомендации</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -129,7 +132,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Telegram-бот: рекомендации настольных игр</h1>
+<h1 class="title">Анализ данных по авиаперевозкам</h1>
 </div>
 
 
@@ -146,32 +149,38 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="обзор-проекта" class="level2">
-<h2 class="anchored" data-anchor-id="обзор-проекта">Обзор проекта</h2>
-<p>Создан Telegram-бот, рекомендующий настольные игры на основе интересов пользователя. Бот реализован на языке R и использует content-based подход: рекомендации строятся на схожести игр по ключевым характеристикам. Также реализована возможность получить случайную игру из базы.</p>
-<p><a href="../reports/boardgame-bot-report.html">Посмотреть полный отчёт с кодом и анализом</a></p>
+<section id="обзор-проекта" class="level1">
+<h1>1. Обзор проекта</h1>
+<section id="цель" class="level2">
+<h2 class="anchored" data-anchor-id="цель">Цель</h2>
+<p>Выявить проблемы в сфере авиаперевозок и предложить улучшения на основе анализа данных.</p>
+<p><a href="../reports/flights-report.html">Посмотреть полный отчёт с графиками и анализом</a></p>
+<p><a href="../reports/flights-dashboard.html">Посмотреть дашборд</a></p>
 </section>
-<section id="данные-и-методы" class="level2">
-<h2 class="anchored" data-anchor-id="данные-и-методы">Данные и методы</h2>
-<ul>
-<li>Данные с GitHub: ~24 признака, отфильтровано и обработано 1000+ игр</li>
-<li>Кластеризация K-means (12 кластеров) и расчёт расстояния Говера для оценки схожести игр</li>
-<li>Рекомендации на основе матрицы различий</li>
-<li>Категории объединены и закодированы (83 → 14)</li>
-<li>Telegram-бот реализует команды <code>/recommend</code>, <code>/random</code>, <code>/help</code>, <code>/start</code></li>
-</ul>
+<section id="ключевые-выводы" class="level2">
+<h2 class="anchored" data-anchor-id="ключевые-выводы">Ключевые выводы</h2>
+<p><strong>1. Комфорт пространства для ног</strong><br>
+Лучшие модели: <em>Airbus 340-300, Boeing 777-200LR и др.</em><br>
+Худшие: <em>Boeing 737-800, Airbus 340 и др.</em><br>
+→ Рекомендуется улучшить конфигурации у моделей с рейтингом ≤ 2. Анкеты — сделать модель конкретной.</p>
+<p><strong>2. Маршруты с пересадками</strong><br>
+Только 94 из 1000 маршрутов — с пересадками.<br>
+→ Добавить в анкету вопрос про пересадки, чтобы не полагаться на текст отзыва.</p>
+<p><strong>3. Wi-Fi в лаунж-зонах vs аэропорты</strong><br>
+Только 11 лаунж-зон оценены выше по Wi-Fi.<br>
+→ Улучшать Wi-Fi в аэропортах и собирать больше данных.</p>
 </section>
-<section id="основные-выводы" class="level2">
-<h2 class="anchored" data-anchor-id="основные-выводы">Основные выводы</h2>
+<section id="рекомендации" class="level2">
+<h2 class="anchored" data-anchor-id="рекомендации">Рекомендации</h2>
 <ul>
-<li>Бот успешно выдает адекватные рекомендации (оценка — экспертная)</li>
-<li>Самые популярные игры — стратегические/карточные (кластер 2)</li>
-<li>Долгие по времени — военные игры (кластер 9)</li>
-<li>Интерфейс протестирован, функциональность подтверждена</li>
-<li>Требуется хостинг и доработка UX для масштабирования</li>
+<li>Упростить и стандартизировать анкету</li>
+<li>Сделать обязательными ключевые вопросы (пересадки, Wi-Fi)</li>
+<li>Фокус на моделях с низким рейтингом комфорта</li>
+<li>Продолжить исследование влияния комфорта и Wi-Fi на общие оценки</li>
 </ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

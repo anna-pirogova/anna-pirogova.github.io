@@ -6,12 +6,13 @@ format:
     toc-depth: 2
 ---
 
-## 🎓 Master's Thesis
+## 🎓 Mагистерская диссертация
 
-### **The Roles of Preventive and Curative Health Care in Economic Development**  
-**Istanbul Technical University, 2025**
+### **Роль профилактического и лечебного здравоохранения в экономическом развитии**  
+**Стамбульски Технический университет, 2025**
 
-**Supervisor:** [Prof. Dr. Osman Doğan](https://sites.google.com/view/osmandogan/home)
+
+**Руководитель:** [Prof. Dr. Osman Doğan](https://sites.google.com/view/osmandogan/home)
 
 ::: {.callout-note collapse="true" title="Abstract (EN)"}
 In this thesis, we examine the impact of curative and preventive health expenditures on economic performance across Organisation for Economic Co-operation and Development (OECD) countries from 1998 to 2021. The existing literature generally agrees that health spending has a positive effect on Gross Domestic Product (GDP) growth, in line with human capital theory. However, fewer studies make a distinction between types of health investment, such as curative (treating illnesses) and preventive (avoiding illnesses). We believe that optimizing these expenditures is crucial in situations involving policy trade-offs. The aim of this thesis is to estimate the causal effect of curative and preventive spending, and to explore interactions with education investment and differentiation by income level. Additionally, we aim to apply an innovative method, such as Double Machine Learning (DML), in an area where it has not been frequently used before.
@@ -40,31 +41,32 @@ We can derive important policy implications from these results. Firstly, curativ
 
 #### My Thesis Presentation
 
-[View Presentation Slides (PDF)](files/thesis_presentation.pdf){target="_blank"}
+[Посмотреть слайды презентации (EN) (PDF)](files/thesis_presentation.pdf){target="_blank"}
 
 
-#### 🔗 Downloads
-- [Full Thesis (PDF, EN)](files/masters-thesis-en.pdf)
-- [Presentation](files/thesis_presentation.pdf)
+#### 🔗 Скачать
+- [Полный текст диссертации (PDF, EN)](files/masters-thesis-en.pdf)
+- [Слайды презентации](files/thesis_presentation.pdf)
 
 
-::: {.callout-tip collapse="true" title="Key Highlights"}
-- **Dataset**: 29 OECD countries (1998–2021) using OECD Statistics & World Bank data  
-- **Methods**:  
-  - Fixed Effects (FE) models with lags and dummies  
-  - Double Machine Learning (Lasso, Ridge, Elastic Net, RF, XGBoost)
+::: {.callout-tip collapse="true" title="Основные тезисы"}
+- **Датасет**: 29 стран ОЭСР (1998–2021), данные из OECD Statistics и Всемирного банка  
+- **Методы**:  
+  - Модели фиксированных эффектов (FE) с лагами и фиктивными переменными  
+  - Двойное машинное обучение (Double Machine Learning: Lasso, Ridge, Elastic Net, RF, XGBoost)
 
-- **Main findings**:
-  - Curative spending shows **U-shaped** impact on GDP with a turning point at **2.87% of GDP**
-  - **Preventive spending not significant** in FE models; DML models show mixed patterns
-  - Curative effects are **income-sensitive**
-  - **Education spending** boosts curative effectiveness
+- **Основные выводы**:  
+  - Расходы на лечебную помощь оказывают **U-образное** влияние на ВВП, с точкой разворота на уровне **2.87% от ВВП**  
+  - **Профилактические расходы незначимы** в FE-моделях; DML-модели показывают смешанные результаты  
+  - Эффекты от лечебных расходов **зависят от уровня дохода**  
+  - **Расходы на образование** усиливают эффективность лечебных расходов
 
-- **Policy implications: context matters**:
-  - Positive economic effects appear only at a later threshold for **high-income or high-education** settings
-  - **Health–education policy** alignment
-  - Efficiency benchmarks for health spending (GDP thresholds)
-  - Improved classification/tracking of preventive spending
+- **Выводы для политики: контекст имеет значение**:  
+  - Положительные экономические эффекты проявляются только после определённого порога в условиях **высокого дохода или образования**  
+  - Необходима **согласованность политики в сферах здравоохранения и образования**  
+  - Бенчмарки эффективности по расходам на здоровье (пороговые значения в % ВВП)  
+  - Улучшенная классификация и отслеживание профилактических расходов
+
   
 :::
 
