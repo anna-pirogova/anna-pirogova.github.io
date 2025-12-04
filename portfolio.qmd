@@ -49,7 +49,7 @@ page-layout: full
 
 <div class="project-desc">Фиксированные эффекты и двойное машинное обучение. CausalML, heterogeneity analysis.</div>
 
-<div class="project-link">[Подробнее →](projects/thesis.qmd)</div>
+<div class="project-link">[Подробнее →](research_academic_work.qmd)</div>
 
 </div>
 :::

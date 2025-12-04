@@ -6,13 +6,13 @@ format:
     toc-depth: 2
 ---
 
-## 🎓 Mагистерская диссертация
+## Mагистерская диссертация
 
-### **Роль профилактического и лечебного здравоохранения в экономическом развитии**  
-**Стамбульски Технический университет, 2025**
+### *Роль профилактического и лечебного здравоохранения в экономическом развитии*, Стамбульский Технический университет, 2025
 
+(*The Roles of Preventive and Curative Health Care in Economic Development*, Istanbul Technical University, 2025)
 
-**Руководитель:** [Prof. Dr. Osman Doğan](https://sites.google.com/view/osmandogan/home)
+**Научный руководитель:** [Prof. Dr. Osman Doğan](https://sites.google.com/view/osmandogan/home)
 
 ::: {.callout-note collapse="true" title="Abstract (EN)"}
 In this thesis, we examine the impact of curative and preventive health expenditures on economic performance across Organisation for Economic Co-operation and Development (OECD) countries from 1998 to 2021. The existing literature generally agrees that health spending has a positive effect on Gross Domestic Product (GDP) growth, in line with human capital theory. However, fewer studies make a distinction between types of health investment, such as curative (treating illnesses) and preventive (avoiding illnesses). We believe that optimizing these expenditures is crucial in situations involving policy trade-offs. The aim of this thesis is to estimate the causal effect of curative and preventive spending, and to explore interactions with education investment and differentiation by income level. Additionally, we aim to apply an innovative method, such as Double Machine Learning (DML), in an area where it has not been frequently used before.
@@ -38,19 +38,8 @@ We can derive important policy implications from these results. Firstly, curativ
 На основе этих выводов можно сформулировать важные рекомендации для политики. Во-первых, инвестиции в лечение могут повышать уровень дохода, но только при условии превышения минимального порога, а также при наличии инвестиций в образование. Во-вторых, странам следует сначала инвестировать в образование, а затем увеличивать расходы на лечение. В-третьих, необходимо улучшить систему учета и классификации профилактических расходов, чтобы можно было более точно оценивать их влияние на экономику. Наши результаты по DML позволяют предположить, что текущие данные занижают эффективность профилактики. Для стран с высоким уровнем дохода имеет смысл рассматривать более высокий порог расходов на лечение как условие их эффективности для экономического роста. В целом, данная работа демонстрирует необходимость использования новых подходов для получения новых знаний в экономике здравоохранения.
 :::
 
-
-#### My Thesis Presentation
-
-[Посмотреть слайды презентации (EN) (PDF)](files/thesis_presentation.pdf){target="_blank"}
-
-
-#### 🔗 Скачать
-- [Полный текст диссертации (PDF, EN)](files/masters-thesis-en.pdf)
-- [Слайды презентации](files/thesis_presentation.pdf)
-
-
 ::: {.callout-tip collapse="true" title="Основные тезисы"}
-- **Датасет**: 29 стран ОЭСР (1998–2021), данные из OECD Statistics и Всемирного банка  
+- **Данные**: 29 стран ОЭСР (1998–2021), данные из OECD Statistics и Всемирного банка  
 - **Методы**:  
   - Модели фиксированных эффектов (FE) с лагами и фиктивными переменными  
   - Двойное машинное обучение (Double Machine Learning: Lasso, Ridge, Elastic Net, RF, XGBoost)
@@ -66,25 +55,102 @@ We can derive important policy implications from these results. Firstly, curativ
   - Необходима **согласованность политики в сферах здравоохранения и образования**  
   - Бенчмарки эффективности по расходам на здоровье (пороговые значения в % ВВП)  
   - Улучшенная классификация и отслеживание профилактических расходов
-
-  
 :::
 
----
+#### Презентация диссертации
 
-## Bachelor's Thesis
+[Посмотреть слайды презентации (PDF, EN)](files/thesis_presentation.pdf){target="_blank"}
 
-### *Title of Your Bachelor's Thesis*  
-**Your University Name, Year**
 
-####  Abstract
-This thesis explores...
-
-#### Download
-- [Full PDF](files/bachelors-thesis.pdf)
+#### 🔗 Скачать
+- [Полный текст диссертации (PDF, EN)](files/masters-thesis-en.pdf)
+- [Слайды презентации](files/thesis_presentation.pdf)
 
 ---
 
-## Want to Know More?
+## Выпускная квалификационная работа (ВКР, бакалавриат)
 
-If you're interested in the data, code, or collaboration around this research, feel free to contact me or view my [portfolio](portfolio.qmd).
+### *Влияние COVID-19 на удовлетворенность работой российских сотрудников*, Национальный исследовательский университет «Высшая школа экономики», 2023 г.
+
+(*Impact of COVID-19 on the Job Satisfaction of Russian Employees*, National Research University Higher School of Economics, 2023)
+
+**Научный руководитель:** Е.А.Заздравных, PhD (Economics)
+
+::: {.callout-note collapse="true" title="Abstract (EN)"}
+This study aimed to estimate the effect of COVID-19 pandemic on job satisfaction across low,
+moderate, and high COVID-19 risk groups within the Russian workforce, focusing on
+satisfaction with job in general, working conditions, growth opportunities, and pay. This study
+utilized Heckman probit model using secondary data obtained from the "Russia Longitudinal
+Monitoring Survey, RLMS-HSE” for the years 2019-2020, collected by annual nationwide
+representative survey using probability stratified multistage area sampling. We found that not all
+aspects of job satisfaction were impacted by COVDI-19. Results showed a decline in satisfaction
+with working conditions among high COVID-19 risk workers, while satisfaction in this aspect
+increased in the moderate risk group. Low-risk workers displayed higher job satisfaction in
+general, with growth opportunities, while moderate-risk workers showed higher satisfaction with
+pay. These findings suggest that the pandemic has exacerbated disparities in job satisfaction,
+with the most adverse effects being felt by high-risk and vulnerable workers. This study
+contributes to the literature by examining the differential impact of the COVID-19 pandemic on
+job satisfaction across various risk groups in the Russian context and interpreting the results
+based on Job Demands-Resources Model. Limitations include a relatively small sample size for
+the high-risk group and lack of extensive data on vulnerable professions. Future research could
+expand the sample size, incorporate more years of data, and explore monthly trends to provide a
+more comprehensive understanding of the effect of COVID-19 on job satisfaction.
+Keywords: job satisfaction, employee well-being, COVID-19, JD-R model, Russian workforce
+:::
+
+::: {.callout-note collapse="true" title="Абстракт (RU)"}
+Целью данного исследования была оценка влияния пандемии COVID-19 на удовлетворенность работой в группах низкого, среднего и высокого риска COVID-19 среди российских работников, с акцентом на удовлетворенность работой в целом, условиями труда, возможностями роста и оплатой. В данном исследовании использовалась пробит-модель Хекмана с использованием вторичных данных, полученных в рамках «Российского лонгитюдного мониторинга» (RLMS-HSE) за 2019–2020 годы, собранных путем ежегодного общенационального репрезентативного опроса с использованием многоступенчатой выборки, стратифицированной по вероятности. Мы обнаружили, что COVID-19 повлиял не на все аспекты удовлетворенности работой. Результаты показали снижение удовлетворенности условиями труда среди работников из группы высокого риска COVID-19, в то время как удовлетворенность этим аспектом возросла в группе умеренного риска. Работники из группы низкого риска продемонстрировали более высокую удовлетворенность работой в целом, возможностями роста, в то время как работники из группы умеренного риска продемонстрировали более высокую удовлетворенность оплатой. Эти результаты свидетельствуют о том, что пандемия усугубила неравенство в удовлетворенности работой, при этом наиболее неблагоприятные последствия ощущают на себе работники из групп высокого риска и уязвимых групп. Данное исследование
+вносит вклад в литературу, изучая дифференцированное влияние пандемии COVID-19 на удовлетворенность работой в различных группах риска в российском контексте и интерпретируя результаты
+на основе модели «требования и ресурсы». К ограничениям относятся относительно небольшой размер выборки для
+группы высокого риска и отсутствие обширных данных по уязвимым профессиям. В будущих исследованиях можно
+расширить размер выборки, включить данные за большее количество лет и изучить ежемесячные тенденции, чтобы обеспечить
+более полное понимание влияния COVID-19 на удовлетворенность работой.
+Ключевые слова: удовлетворенность работой, благополучие сотрудников, COVID-19, модель JD-R, российская рабочая сила
+:::
+
+::: {.callout-tip collapse="true" title="Основные тезисы"}
+### Группы низкого и среднего риска
+- Значительный рост **общей удовлетворенности работой** в 2020 году.
+Это согласуется с предыдущими исследованиями (Frutos-Bencze et al., 2022)._
+- Более высокая вероятность выражения **удовлетворенности возможностями роста** в 2020 году.
+
+Подтверждено предыдущими исследованиями (Nicola et al., 2020) и моделью JD-R._
+
+### Группа среднего риска
+- Более высокая вероятность **удовлетворенности оплатой** в 2020 году.
+- **Значительный рост** удовлетворенности **условиями труда** в 2020 году.
+
+### Группа высокого риска
+- **Значительного снижения** общей удовлетворенности работой не наблюдалось.
+Это противоречит предыдущим исследованиям, но может быть объяснено психологической устойчивостью (Caponnetto et al., 2022) или ограничениями текущего исследования.
+- **Снижение вероятности** удовлетворенности **условиями труда** в 2020 году.
+
+Этот вывод согласуется с результатами более ранних исследований (Chirico et al., 2020).
+
+## Теоретический вклад
+- Устраняет **пробел** в исследованиях**, анализируя влияние COVID-19 на **российскую рабочую силу**, выходя за рамки удаленных работников и развитых стран.
+- Использует **пробит-модель Хекмана** для учета смещения выборки.
+- Рассматривает **множественные аспекты удовлетворенности работой**, обеспечивая более полное понимание последствий пандемии.
+
+## Практическое значение (управленческое применение)
+- Подчеркивает **необходимость разработки стратегий индивидуальной поддержки** для различных групп риска во время кризиса. Особенно актуально для профессий с высоким уровнем риска._
+- Показывает, что **низкая удовлетворенность работой** может привести к **повышенной текучести кадров**, что особенно негативно сказывается на **работниках основных служб**.
+- Предлагает практические рекомендации для **разработки политики**:
+- Улучшить условия труда для групп высокого риска.
+- Внедрить **гибкий график работы**.
+- Обеспечить **доступ к средствам индивидуальной защиты**.
+:::
+
+#### Презентация ВКР
+
+[Посмотреть слайды презентации (PDF, EN)](files/bachelors_thesis_presentation.pdf){target="_blank"}
+
+#### 🔗 Скачать
+- [Полный текст диссертации (PDF, EN)](files/bachelors_thesis.pdf)
+- [Слайды презентации (PDF, EN)](files/bachelors_thesis_presentation.pdf)
+---
+
+## Хотите узнать больше?
+
+Если вам интересны данные, код или возможное сотрудничество по этому исследованию, пожалуйста, [свяжитесь со мной](contact.qmd) или загляните в [портфолио](portfolio.qmd).
+

@@ -1,0 +1,18 @@
+---
+title: "Контакты"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+---
+
+По вопросам аналитики данных, проектов или сотрудничества свяжитесь со мной через любым удобным способом:
+
+### Email/Telegram
+
+<img src="/images/contact_info.png" width="50%">
+
+### Профили
+
+- [GitHub](https://github.com/anna-pirogova)
+- [LinkedIn](https://www.linkedin.com/in/anna-pirogova/)

@@ -3,15 +3,19 @@ project:
   output-dir: docs
 
 website:
-  title: "Anna Pirogova — Data Scientist & Health Economist"
+  title: "Анна Пирогова — Data Scientist & Health Economist"
   navbar:
     left:
       - text: Обо мне
         href: index.qmd
       - text: Портфолио
         href: portfolio.qmd
+      - text: Сертификаты
+        href: certificates.qmd        
       - text: Исследования
         href: research_academic_work.qmd
+      - text: Контакты
+        href: contact.qmd 
   page-footer: 
     center: "© 2025 Anna Pirogova"
 

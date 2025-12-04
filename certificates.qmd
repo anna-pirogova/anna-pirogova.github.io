@@ -1,0 +1,22 @@
+---
+title: "Сертификаты"
+format: html
+page-layout: full
+---
+Здесь размещены мои сертификаты об обучении. Вы можете **скачать PDF** или **проверить подлинность онлайн**.
+
+::: {.table-responsive}
+| Сертификат | Выдан | Год | Часы | 📥 Скачать | 🔗 Ссылка |
+|------------|-------|------|-------|------------|--------|
+| Введение в объектно-ориентированное программирование на Python | DataCamp | 2025 | 3 | [Скачать](certificates/Datacamp_Introduction_to_Object_Oriented_Programming_in_Python.pdf) | [Открыть](https://www.datacamp.com/statement-of-accomplishment/course/df063e2facd7f38d3c3cb81be0d92b8b654f6ae0?raw=1) |
+| Структуры данных и алгоритмы в Python | DataCamp | 2025 | 4 | [Скачать](certificates/DataCamp_certificate_Data_Structures_and_Algorithms_in_Python.pdf) | [Открыть](https://www.datacamp.com/completed/statement-of-accomplishment/course/41c2dfcd49fd01ba2107bbe687f9469247405b33) |
+| Трек "Associate Data Scientist in Python" | DataCamp | 2025 | 90 | [Скачать](certificates/DataCamp_certificate_Associate_Data_Scientist_in_Python.pdf) | [Открыть](https://www.datacamp.com/completed/statement-of-accomplishment/track/57d0fdbbbaf42e95418cb77c18d1bbf190c58267) |
+| Трек "Associate Data Analyst in SQL" | DataCamp | 2025 | 39 | [Скачать](certificates/Datacamp_certificate_Associate_Data_Analyst_in_SQL.pdf) | [Открыть](https://www.datacamp.com/completed/statement-of-accomplishment/track/83f5dad9dd9171515a3afb4c6d6f63d5ff9ed018) |
+| Интерактивный тренажёр по SQL | Stepik | 2025 | 24 | [Скачать](certificates/Stepik_certificate_Interactive_SQL.pdf) | [Открыть](https://stepik.org/cert/2937980) |
+| Введение в Data Science на Python | Coursera / Univ. of Michigan | 2023 | 30 | [Скачать](certificates/Coursera_python.pdf) | [Открыть](https://www.coursera.org/account/accomplishments/verify/YAJDY83RD7WP) |
+| Обработка и анализ данных (программа повышения квалификации) | ВШЭ | 2023 | 760 | [Скачать](certificates/HSE_data_analysis.pdf) | — |
+| Трек "SQL для бизнес-аналитиков" | DataCamp | 2022 | 20 | [Скачать](certificates/DataCamp_certificate_SQL_for_Business_Analysts.pdf) | [Открыть](https://www.datacamp.com/completed/statement-of-accomplishment/track/2a4da514fa3e2fb8cd5450e60f290aa53cb4866d) |
+| Трек "Основы SQL" | DataCamp | 2021 | 21 | [Скачать](certificates/DataCamp_certificate_SQL_Fundamentals.pdf) | [Открыть](https://www.datacamp.com/completed/statement-of-accomplishment/track/9f21c6a9922c837cd676c8d8d59a3b6b2af75f71) |
+| Моделирование с tidymodels на R | DataCamp | 2021 | 4 | [Скачать](certificates/tidymodels_r.pdf) | [Открыть](https://www.datacamp.com/statement-of-accomplishment/course/16fb00f3124dd87f18a710dc95cd952204199432?raw=1) |
+| Обучение без учителя на R | DataCamp | 2021 | 4 | [Скачать](certificates/unsupervised_r.pdf) | [Открыть](https://www.datacamp.com/completed/statement-of-accomplishment/course/6e596a98f4a9a619a310d859a13ff3e3d830a369) |
+:::
