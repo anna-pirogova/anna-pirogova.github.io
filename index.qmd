@@ -44,5 +44,5 @@ Python & R · SQL · Scikit-learn · Streamlit · Pandas · CRM (Zoho) · API ·
 
 [Перейти к портфолио](portfolio.qmd)<br>
 [Перейти к исследованиям](research_academic_work.qmd)<br>
-[Скачать полное резюме](files/resume_anna_pirogova.pdf)<br> 
+[Скачать полное резюме](files/Anna_Pirogova_resume_RU.pdf)<br> 
 Мои контакты:![Contact](images/contact_info.png){width=400px}
