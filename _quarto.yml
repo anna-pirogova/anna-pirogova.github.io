@@ -16,6 +16,9 @@ website:
         href: research_academic_work.qmd
       - text: Контакты
         href: contact.qmd 
+    right:
+      - text: EN English
+        href: https://anna-pirogova.github.io/anna-pirogova-english/
   page-footer: 
     center: "© 2025 Anna Pirogova"
 
