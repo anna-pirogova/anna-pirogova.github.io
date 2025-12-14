@@ -95,6 +95,23 @@ page-layout: full
 
 ::: {.project-box}
 <div class="project-img-wrapper">
+  ![](images/recovery-dashboard-thumb.png){.project-img}
+</div>
+
+<div class="project-text">
+
+<div class="project-title">Интерактивный дашборд восстановления (сон, HRV, стресс) с ИИ‑инсайтами</div>
+
+<div class="project-desc">Интерактивный дашборд, создан с помощью Streamlit. Автоматическая генерация интерпретаций с помощью языковой модели (LLM). Чтобы просмотреть интерфейс на русском, воспользуйтесь встроенным переводчиком Google Chrome. </div>
+
+<div class="project-link">[Подробнее →](https://hrv-sleep-dashboard.streamlit.app/)</div>
+
+</div>
+:::
+
+
+::: {.project-box}
+<div class="project-img-wrapper">
   ![](images/employee-churn-thumb.png){.project-img}
 </div>
 
