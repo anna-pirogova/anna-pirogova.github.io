@@ -3,6 +3,25 @@ title: "Портфолио"
 format: html
 page-layout: full
 ---
+## Эксперименты
+
+::: {.project-box}
+<div class="project-img-wrapper">
+  ![](images/unfolding-wines-thumb.jpg){.project-img}
+</div>
+
+<div class="project-text">
+
+<div class="project-title">Эксперименты с Простыми Числами</div>
+
+<div class="project-desc">А что если Простые Числа не случайны и живут в своем "Пространстве Простых Чисел"? В этом проекте исследуем, как классический датасет вин (wines) выглядит в 2D-11D Пространстве Простых чисел. Как хорошо удастся нам различить сорта вин? А удастся ли показать улучшение в качестве кластеризации?</div>
+
+<div class="project-link">[Раскрывая Вина (2D) →](reports/unfolding-wines-2D.qmd)</div>
+<div class="project-link">[Раскрывая Вина (3D) →](reports/unfolding-wines-3D.qmd)</div>
+<div class="project-link">[Раскрывая Вина (Качество Кластеризации) →](reports/unfolding-wines-clustering-quality.qmd)</div>
+</div>
+:::
+
 
 ## Машинное обучение и моделирование
 
@@ -53,7 +72,6 @@ page-layout: full
 
 </div>
 :::
-
 
 ::: {.project-box}
 <div class="project-img-wrapper">

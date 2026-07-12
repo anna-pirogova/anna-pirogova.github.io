@@ -1,0 +1,85 @@
+---
+title: "Раскрывая вина в 3D: как выглядит набор данных о винах в 2D-11D Пространстве Простых Чисел?"
+format: html
+---
+В этом проекте мы используем первые 11 простых чисел в качестве осей и проецируем признаки (features) датасета вин (wines) на эти оси (prime axes). После этого мы визуализируем, как выглядят наши вина от 2D до 11D в так называемом "Пространстве Простых Чисел", используя UMAP и matplotlib.
+2D значит, что мы используем только первые 2 простых числа, а 11D значит, что все 11 простых чисел были использованы, в качестве осей.
+UMAP используется для проекции и визуализации обратно в нашем 3D пространство. Для 2D визуализации, пожалуйста, [посетите эту страницу →](unfolding-wines-2D.qmd). Для просмотра оценок качества кластеризации, пожалуйста, [посетите эту страницу →](unfolding-wines-clustering-quality.qmd)
+
+Мы можем наблюдать, как разделение вин на сорта видно все ярче, по мере того, как мы приближаемся "11D Пространству Простых Чисел".
+
+Важное замечание: это мой личный эксперимент, поэтому здесь не будет математических формальных обозначений или теоретических доказательств, касающихся пространства простых чисел. Если кто-то захочет формализовать эту методологию, я оставляю эту задачу математикам :)
+
+
+```{python}
+import numpy as np 
+from fractions import Fraction
+from tqdm import tqdm
+from scipy.optimize import lsq_linear
+from sklearn.datasets import load_wine
+from umap import UMAP
+import plotly.express as px
+import warnings
+warnings.filterwarnings("ignore")
+
+# Load Wine dataset
+dataset = load_wine()
+X_raw = dataset.data
+y = dataset.target
+n_samples, n_features = X_raw.shape
+
+# First 11 prime numbers
+prime_list = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]
+log_primes = np.log(prime_list)
+
+# Scalar projection
+def project_scalar(val, log_basis, bounds=(-6, 6)):
+    try:
+        log_target = np.log(float(val))
+        res = lsq_linear(log_basis.reshape(1, -1), [log_target], bounds=bounds, lsmr_tol='auto')
+        return res.x
+    except:
+        return np.zeros(len(log_basis))
+
+# Full dataset projection
+def project_dataset_prime_space(X_raw, dim):
+    basis = log_primes[:dim]
+    X_frac = np.vectorize(Fraction)(X_raw)
+    projected = []
+
+    for sample in tqdm(X_frac, desc=f"Projecting to Prime {dim}D Space"):
+        sample_proj = []
+        for val in sample:
+            vec = project_scalar(val, basis)
+            sample_proj.extend(vec)
+        projected.append(sample_proj)
+
+    return np.array(projected)
+
+# Plotly 3D UMAP plot
+def plot_umap_3D_interactive(X, y, title):
+    umap_3D = UMAP(n_components=3, random_state=7)
+    X_umap = umap_3D.fit_transform(X)
+
+    fig = px.scatter_3d(
+        x=X_umap[:, 0],
+        y=X_umap[:, 1],
+        z=X_umap[:, 2],
+        color=y.astype(str),
+        title=title,
+        labels={'x': 'UMAP 1', 'y': 'UMAP 2', 'z': 'UMAP 3'}
+    )
+    fig.update_traces(marker=dict(size=5, opacity=0.8))
+    fig.update_layout(margin=dict(l=0, r=0, b=0, t=40))
+    fig.show()
+
+# Raw data UMAP
+plot_umap_3D_interactive(X_raw, y, "3D UMAP на Сыром Датасете Вин (13D)")
+
+# Prime projections from 2D to 11D
+for dim in range(2, 12):
+    X_prime = project_dataset_prime_space(X_raw, dim)
+    total_dim = dim * n_features
+    plot_umap_3D_interactive(X_prime, y, f"3D UMAP на {dim}D Проекции с помощью Простых Чисел ({total_dim}D)")
+
+```

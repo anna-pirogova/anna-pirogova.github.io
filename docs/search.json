@@ -42,6 +42,244 @@
     "text": "Хотите узнать больше?\nЕсли вам интересны данные, код или возможное сотрудничество по этому исследованию, пожалуйста, свяжитесь со мной или загляните в портфолио."
   },
   {
+    "objectID": "reports/unfolding-wines-3D.html",
+    "href": "reports/unfolding-wines-3D.html",
+    "title": "Раскрывая вина в 3D: как выглядит набор данных о винах в 2D-11D Пространстве Простых Чисел?",
+    "section": "",
+    "text": "В этом проекте мы используем первые 11 простых чисел в качестве осей и проецируем признаки (features) датасета вин (wines) на эти оси (prime axes). После этого мы визуализируем, как выглядят наши вина от 2D до 11D в так называемом “Пространстве Простых Чисел”, используя UMAP и matplotlib. 2D значит, что мы используем только первые 2 простых числа, а 11D значит, что все 11 простых чисел были использованы, в качестве осей. UMAP используется для проекции и визуализации обратно в нашем 3D пространство. Для 2D визуализации, пожалуйста, посетите эту страницу →. Для просмотра оценок качества кластеризации, пожалуйста, посетите эту страницу →\nМы можем наблюдать, как разделение вин на сорта видно все ярче, по мере того, как мы приближаемся “11D Пространству Простых Чисел”.\nВажное замечание: это мой личный эксперимент, поэтому здесь не будет математических формальных обозначений или теоретических доказательств, касающихся пространства простых чисел. Если кто-то захочет формализовать эту методологию, я оставляю эту задачу математикам :)\n\nimport numpy as np \nfrom fractions import Fraction\nfrom tqdm import tqdm\nfrom scipy.optimize import lsq_linear\nfrom sklearn.datasets import load_wine\nfrom umap import UMAP\nimport plotly.express as px\nimport warnings\nwarnings.filterwarnings(\"ignore\")\n\n# Load Wine dataset\ndataset = load_wine()\nX_raw = dataset.data\ny = dataset.target\nn_samples, n_features = X_raw.shape\n\n# First 11 prime numbers\nprime_list = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]\nlog_primes = np.log(prime_list)\n\n# Scalar projection\ndef project_scalar(val, log_basis, bounds=(-6, 6)):\n    try:\n        log_target = np.log(float(val))\n        res = lsq_linear(log_basis.reshape(1, -1), [log_target], bounds=bounds, lsmr_tol='auto')\n        return res.x\n    except:\n        return np.zeros(len(log_basis))\n\n# Full dataset projection\ndef project_dataset_prime_space(X_raw, dim):\n    basis = log_primes[:dim]\n    X_frac = np.vectorize(Fraction)(X_raw)\n    projected = []\n\n    for sample in tqdm(X_frac, desc=f\"Projecting to Prime {dim}D Space\"):\n        sample_proj = []\n        for val in sample:\n            vec = project_scalar(val, basis)\n            sample_proj.extend(vec)\n        projected.append(sample_proj)\n\n    return np.array(projected)\n\n# Plotly 3D UMAP plot\ndef plot_umap_3D_interactive(X, y, title):\n    umap_3D = UMAP(n_components=3, random_state=7)\n    X_umap = umap_3D.fit_transform(X)\n\n    fig = px.scatter_3d(\n        x=X_umap[:, 0],\n        y=X_umap[:, 1],\n        z=X_umap[:, 2],\n        color=y.astype(str),\n        title=title,\n        labels={'x': 'UMAP 1', 'y': 'UMAP 2', 'z': 'UMAP 3'}\n    )\n    fig.update_traces(marker=dict(size=5, opacity=0.8))\n    fig.update_layout(margin=dict(l=0, r=0, b=0, t=40))\n    fig.show()\n\n# Raw data UMAP\nplot_umap_3D_interactive(X_raw, y, \"3D UMAP на Сыром Датасете Вин (13D)\")\n\n# Prime projections from 2D to 11D\nfor dim in range(2, 12):\n    X_prime = project_dataset_prime_space(X_raw, dim)\n    total_dim = dim * n_features\n    plot_umap_3D_interactive(X_prime, y, f\"3D UMAP на {dim}D Проекции с помощью Простых Чисел ({total_dim}D)\")\n\nC:\\Users\\Admin\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\tqdm\\auto.py:21: TqdmWarning:\n\nIProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html\n\n\n\n        \n        \n        \n\n\n                            \n                                            \n\n\nProjecting to Prime 2D Space:   0%|          | 0/178 [00:00&lt;?, ?it/s]Projecting to Prime 2D Space:  95%|█████████▍| 169/178 [00:00&lt;00:00, 1683.20it/s]Projecting to Prime 2D Space: 100%|██████████| 178/178 [00:00&lt;00:00, 1652.17it/s]\n\n\n                            \n                                            \n\n\nProjecting to Prime 3D Space:   0%|          | 0/178 [00:00&lt;?, ?it/s]Projecting to Prime 3D Space:  98%|█████████▊| 174/178 [00:00&lt;00:00, 1727.86it/s]Projecting to Prime 3D Space: 100%|██████████| 178/178 [00:00&lt;00:00, 1716.47it/s]\n\n\n                            \n                                            \n\n\nProjecting to Prime 4D Space:   0%|          | 0/178 [00:00&lt;?, ?it/s]Projecting to Prime 4D Space:  81%|████████  | 144/178 [00:00&lt;00:00, 1439.96it/s]Projecting to Prime 4D Space: 100%|██████████| 178/178 [00:00&lt;00:00, 1447.10it/s]\n\n\n                            \n                                            \n\n\nProjecting to Prime 5D Space:   0%|          | 0/178 [00:00&lt;?, ?it/s]Projecting to Prime 5D Space: 100%|██████████| 178/178 [00:00&lt;00:00, 1828.85it/s]\n\n\n                            \n                                            \n\n\nProjecting to Prime 6D Space:   0%|          | 0/178 [00:00&lt;?, ?it/s]Projecting to Prime 6D Space: 100%|██████████| 178/178 [00:00&lt;00:00, 1884.83it/s]\n\n\n                            \n                                            \n\n\nProjecting to Prime 7D Space:   0%|          | 0/178 [00:00&lt;?, ?it/s]Projecting to Prime 7D Space:  97%|█████████▋| 172/178 [00:00&lt;00:00, 1702.98it/s]Projecting to Prime 7D Space: 100%|██████████| 178/178 [00:00&lt;00:00, 1663.56it/s]\n\n\n                            \n                                            \n\n\nProjecting to Prime 8D Space:   0%|          | 0/178 [00:00&lt;?, ?it/s]Projecting to Prime 8D Space:  90%|████████▉ | 160/178 [00:00&lt;00:00, 1592.89it/s]Projecting to Prime 8D Space: 100%|██████████| 178/178 [00:00&lt;00:00, 1541.84it/s]\n\n\n                            \n                                            \n\n\nProjecting to Prime 9D Space:   0%|          | 0/178 [00:00&lt;?, ?it/s]Projecting to Prime 9D Space: 100%|██████████| 178/178 [00:00&lt;00:00, 1782.31it/s]\n\n\n                            \n                                            \n\n\nProjecting to Prime 10D Space:   0%|          | 0/178 [00:00&lt;?, ?it/s]Projecting to Prime 10D Space:  85%|████████▌ | 152/178 [00:00&lt;00:00, 1509.15it/s]Projecting to Prime 10D Space: 100%|██████████| 178/178 [00:00&lt;00:00, 1418.63it/s]\n\n\n                            \n                                            \n\n\nProjecting to Prime 11D Space:   0%|          | 0/178 [00:00&lt;?, ?it/s]Projecting to Prime 11D Space:  99%|█████████▉| 177/178 [00:00&lt;00:00, 1766.70it/s]Projecting to Prime 11D Space: 100%|██████████| 178/178 [00:00&lt;00:00, 1759.10it/s]"
+  },
+  {
+    "objectID": "reports/kickstarter-code.html",
+    "href": "reports/kickstarter-code.html",
+    "title": "Kickstarter - код",
+    "section": "",
+    "text": "Data and libraries\n\nlibrary(readr)\nlibrary(lubridate)\nlibrary(rpart)\nlibrary(rpart.plot)\nlibrary(chron)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)\nlibrary(coin)\nkickstarter = read_csv(\"~/documents/kickstarter.csv\")\n\nData transformation\n\nkickstarter$category=as.factor(kickstarter$category)\nkickstarter$main_category=as.factor(kickstarter$main_category)\nkickstarter$currency=as.factor(kickstarter$currency)\nkickstarter$state=as.factor(kickstarter$state)\nkickstarter$country=as.factor(kickstarter$country)\nkickstarter=kickstarter %&gt;% mutate(launch_date=as.Date(launched)) %&gt;% mutate(period_length=deadline-launch_date,month = month(launch_date),day = day(launch_date),launch_season = case_when(\n    month &gt; 2 & month &lt; 6 ~ \"spring\",\n    month &gt; 5 & month &lt; 9 ~ \"summer\",\n    month &gt; 8 & month &lt; 12 ~ \"autumn\",\n    month &gt; 11 | month &lt; 3 ~ \"winter\",\n    TRUE ~ \"unknown\"),launch_weekday=weekdays.Date(kickstarter$launch_date))\nkickstarter=kickstarter %&gt;% mutate(launch_weekday=weekdays.Date(kickstarter$launch_date),gen_category=str_trim(paste(main_category,\", \",category)),name_length=str_length(name),number_of_words=str_count(name,'\\\\w+'),n_caps_in_name=str_count(name, \"\\\\b[A-Z]{2,}\\\\b\"),has_caps_in_name=case_when(n_caps_in_name&gt;0 ~ 1, TRUE ~ 0),launch_hour=hour(launched), launch_dayPart = case_when(\n    launch_hour &gt; 5 & launch_hour &lt; 13 ~ \"morning\",\n    launch_hour &gt; 11 & launch_hour &lt; 18 ~ \"afternoon\",\n    launch_hour &gt; 17 & launch_hour &lt; 23 ~ \"evening\",\n    launch_hour &gt; 22 | launch_hour &lt; 6 ~ \"night\",\n    TRUE ~ \"unknown\"\n  ),launch_is_weekend=is.weekend(launched),cat_is_cat=case_when(as.character(main_category)==as.character(category)~1,TRUE~0),name_has_marks=as.factor(case_when(str_detect(name,\":\")==TRUE|str_detect(name,\";\")==TRUE|str_detect(name,\"!\")==TRUE~1,TRUE~0)))\n                                                                          \nkickstarter$launch_season=factor(kickstarter$launch_season,levels=c(\"autumn\",\"winter\",\"spring\",\"summer\"))\n\nkickstarter$launch_weekday=factor(kickstarter$launch_weekday,levels=c(\"Monday\",\"Tuesday\", \"Wednesday\",\"Thursday\",\"Friday\",\"Saturday\",\"Sunday\"))\n\nkickstarter$has_caps_in_name=as.factor(kickstarter$has_caps_in_name)\nkickstarter$cat_is_cat=as.factor(kickstarter$cat_is_cat)\nkickstarter$name_has_marks=as.factor(kickstarter$name_has_marks)\nkickstarter$gen_category=kickstarter$gen_category %&gt;% str_replace_all(\" ,  \",\", \")\n\nkickstarter=kickstarter %&gt;% mutate(gen_cat_length=str_length(gen_category),gen_cat_number_words=str_count(gen_category,'\\\\w+'),gen_cat_first_letter=str_extract(gen_category,'[A-Z]'),cat_length=str_length(category),cat_number_words=str_count(category,'\\\\w+'),cat_first_letter=str_extract(category,'[A-Z]'))\n\nkickstarter$gen_category=as.factor(kickstarter$gen_category)\nkickstarter$launch_dayPart=factor(kickstarter$launch_dayPart,levels=c(\"morning\",\"afternoon\",\"evening\",\"night\"))\nkickstarter$gen_cat_first_letter=as.factor(kickstarter$gen_cat_first_letter)\nkickstarter$cat_first_letter=as.factor(kickstarter$cat_first_letter)\n\nProjects by sum graph\n\nkickstarter_sum_by_category=kickstarter %&gt;% group_by(state,main_category) %&gt;% filter(state==\"successful\") %&gt;% summarise(average_sum=round(mean(usd_goal_real),1)) %&gt;% arrange(-average_sum) %&gt;% ungroup() %&gt;% dplyr::select(-state)\nknitr::kable(kickstarter_sum_by_category,col.names=c(\"Основная категория\",\"Средняя сумма реализованных проектов\"))\n\nSuccess of projects by category\n\nkickstarter_num_cat=kickstarter %&gt;% group_by(main_category) %&gt;% summarise(cnt=n())\nkickstarter_success_perc=kickstarter %&gt;% filter(state==\"successful\") %&gt;% group_by(main_category) %&gt;% summarise(s_cnt=n())\nkickstarter_success_by_cat=left_join(kickstarter_success_perc,kickstarter_num_cat,by=\"main_category\") %&gt;% mutate(success_percentage=s_cnt/cnt*100) %&gt;% arrange(-success_percentage) %&gt;% select(-s_cnt,-cnt)\nknitr::kable(kickstarter_success_by_cat,col.names=c(\"Основная категория\",\"Процент успешных проектов\"))\n\nGraph Success of projects by category\n\nggplot(data=kickstarter)+geom_bar(aes(x=main_category,fill=state),stat=\"count\")+xlab('Название основной категории')+ylab('Количество проектов')+ggtitle('Успешность проектов в разных категориях')+coord_flip()+scale_fill_brewer(name=\"Состояние проекта\",labels=c(\"неуспешный\",\"успешный\"),palette=\"Pastel1\")\n\nGraph Success of projects by Launch hour\n\nggplot(data=kickstarter)+geom_bar(aes(x=launch_hour,fill=state),position=\"fill\")+ylab(\"Доля проектов\")+xlab(\"Час запуска\")+scale_fill_brewer(name=\"Состояние проекта\",labels=c(\"неуспешный\",\"успешный\"),palette=\"Pastel1\")+ggtitle(\"Успешность проектов по часу запуска\")\n\nGraph Success of projects by title length\n\nggplot(data=kickstarter)+geom_boxplot(aes(x=state,y=name_length, fill=state))+ylab(\"Длина названия проекта в символах\")+xlab(\"Состояние проекта\")+scale_x_discrete(labels=c(\"Неуспешный\", \"Успешный\"))+ggtitle(\"Успешность проекта по длине названия проекта\")+scale_fill_brewer(name=\"Состояние проекта\",labels=c(\"неуспешный\",\"успешный\"),palette=\"Pastel1\")\n\nGraph Success of projects by special symbols in the title\n\nggplot(data=kickstarter)+geom_bar(aes(x=name_has_marks,fill=state),position=\"fill\")+xlab(\"Наличие символов :,!,; в названии проекта\")+ylab(\"Доля проектов\")+ggtitle(\"Успешность проекта по наличию символов в названии\")+\nscale_fill_brewer(name=\"Состояние проекта\",labels=c(\"неуспешный\",\"успешный\"),palette=\"Pastel1\")+scale_x_discrete(labels=c(\"Нет\", \"Да\"))\n\nModel creation\n\n# \"зерно\" для генератора случайных чисел\nset.seed(1234) \n\n# Возьмем 80% как обучающие\nkickstarter_train = kickstarter %&gt;% dplyr::sample_frac(.8)\n\n# создаем тестовый набор данных\n# через анти-джойн, чтобы убрать все наблюдения, попавшие в обучающую выборку\nkickstarter_test = dplyr::anti_join(kickstarter, kickstarter_train, by = 'id') %&gt;% dplyr::select(-id)\n\nkickstarter_train = kickstarter_train %&gt;% dplyr::select(-id)\n\n## Построение сложной модели\n## Попробуем построить сложную модель, которая даст нам наибольшую точность. Будем использовать пакет rpart и все переменные, кроме id, name, date, deadline, launched, backers, launch date.\n\n### Необрезанное дерево\ntree1 &lt;- rpart(state ~ category+gen_category+main_category+usd_goal_real+day+country+month+launch_season+currency+period_length+launch_weekday+name_length+number_of_words+has_caps_in_name+n_caps_in_name+launch_dayPart+launch_hour+launch_is_weekend+cat_is_cat+name_has_marks+cat_length+cat_number_words+cat_first_letter+gen_cat_length+gen_cat_number_words+gen_cat_first_letter, method= \"class\",data = kickstarter_train, control = rpart.control(cp = 0.001)) \nrpart.plot::rpart.plot(tree1)\n\n#предсказываем\npred.kick_train1 = predict(tree1, type=\"class\")\n\n## **accuracy на тренировочной выборке**\nt1 = table(pred.kick_train1, kickstarter_train$state)\nacc1tr=(t1[1,1] + t1[2,2])/sum(t1)\nacc1tr\n\n## **accuracy на тестовой выборке**\npred.kick_test1 = predict(tree1, newdata = kickstarter_test, type=\"class\")\nt11 = table(pred.kick_test1, kickstarter_test$state)\nacc1ts=(t11[1,1] + t11[2,2])/sum(t11)\nacc1ts\n\n## Как мы видим, accuracy на тестовой выборке получилась ниже, но незначительно. Обрежем дерево по оптимальному значению cp\n\n## **строим таблицу cp**\nset.seed(1234)\ncp_tbl = printcp(tree1)\nset.seed(1234)\nmin_cp = cp_tbl %&gt;%\n  as.data.frame() %&gt;% \n  arrange(xerror) %&gt;% \n  head(n = 1)\nmin_cp\n\n## **обрезаем дерево через prune()** \ntree2 = prune(tree1, cp = 0.00102)\n\nrpart.plot::rpart.plot(tree2,fallen.leaves = FALSE,faclen=2)\n# делаем предсказание\npred.kick_train2=predict(tree2, type=\"class\")\n\n## **accuracy для тренировочной выборки**\nt2 = table(pred.kick_train2, kickstarter_train$state)\nacc2tr=(t2[1,1] + t2[2,2])/sum(t2)\nacc2tr\n\n## **accuracy для тестовой выборки**\n#предсказание\npred.kick_test2 = predict(tree2, kickstarter_test, type=\"class\")\n#accuracy\nt22 = table(pred.kick_test2, kickstarter_test$state)\nacc2ts=(t22[1,1] + t22[2,2])/sum(t22)\nacc2ts\n## Итак, мы построили сложную модель и достигли точности 0.7018865 на тренировочной и 0.6823584 для тестовой выборки. Попробуем построить менее сложную модель, но при этом попробуем достигнуть сходной точности.\n## Для этого с помощью команды summary посмотрим, какие переменные модель 1 посчитала наиболее важными и построим модель на их основе.\n\n## Less complicated model creation\n\n## **модель и accuracy для тренировочной выборки**\n\n\n#summary(tree2)\ntree0 &lt;- rpart(state ~ gen_category+category+main_category+usd_goal_real+number_of_words+cat_is_cat+launch_dayPart+period_length+cat_length+cat_number_words+cat_first_letter+gen_cat_length+gen_cat_number_words+gen_cat_first_letter+country+currency+launch_weekday+launch_hour, method=\"class\",data=kickstarter_train)\npred0 = predict(tree0, type=\"class\")\n#функция для переноса строк для названий переменных\nsplit.fun &lt;- function(x, labs, digits, varlen, faclen)\n{\n    # replace commas with spaces (needed for strwrap)\n    labs &lt;- gsub(\",\", \" \", labs)\n    for(i in 1:length(labs)) {\n        # split labs[i] into multiple lines\n        labs[i] &lt;- paste(strwrap(labs[i], width=32), collapse=\"\\n\")\n    }\n    labs\n}\nprp(tree0, split.fun=split.fun,fallen.leaves=FALSE,extra=4,cex=0.45)\n\nt0 = table(pred0, kickstarter_train$state)\n\n(t0[1,1] + t0[2,2])/sum(t0)\n\n## **accuracy для тестовой выборки**\npred00 = predict(tree0, kickstarter_test, type=\"class\")\n\nt = table(pred00, kickstarter_test$state)\n\n(t[1,1] + t[2,2])/sum(t)\n\nИтак, мы построили намного более простую модель, имеющую точность 0.6758971 для тренировочной и 0.6693204 для тестовой выборок.\n\na=(0.7018865-0.6758971)*100\nb=(0.6823584-0.6693204)*100\npaste(\"При этом, точность упрощенной модели на\",round(a,2),\"% (тренировочная выборка) и \", round(b,2),\"% (тестовая выборка) ниже, чем у на порядок более сложной модели\")\n\n[1] \"При этом, точность упрощенной модели на 2.6 % (тренировочная выборка) и  1.3 % (тестовая выборка) ниже, чем у на порядок более сложной модели\"\n\n\nImportance of variables in the model\n\ntreecat = c('category','gen_category','main_category','cat_first_letter','gen_cat_first_letter','cat_length','usd_goal_real','period_length','name_length','country','launch_dayPart','number_of_words','currency','launch_hour')\nmeaning = c('категория','категория и подкатегория проекта','основная категория','первая буква названия категории','первая буква названия подкатегории','длина названия категории в символах','целевая сумма проекта в долларах','длительность сборов','длина названия проекта в символах','страна','часть дня, в которую был запущен проект','количество слов в названии проекта','валюта','час запуска')\nimportance=c('25','22','12','11','10','7','4','3','1','1','1','1','1','1')\ncatable = data.frame(treecat, meaning,importance)\nknitr::kable(catable, col.names = c(\"Переменная\",\"Расшифровка названия\",\"Значимость\"))\n\n\n\n\n\n\n\n\n\nПеременная\nРасшифровка названия\nЗначимость\n\n\n\n\ncategory\nкатегория\n25\n\n\ngen_category\nкатегория и подкатегория проекта\n22\n\n\nmain_category\nосновная категория\n12\n\n\ncat_first_letter\nпервая буква названия категории\n11\n\n\ngen_cat_first_letter\nпервая буква названия подкатегории\n10\n\n\ncat_length\nдлина названия категории в символах\n7\n\n\nusd_goal_real\nцелевая сумма проекта в долларах\n4\n\n\nperiod_length\nдлительность сборов\n3\n\n\nname_length\nдлина названия проекта в символах\n1\n\n\ncountry\nстрана\n1\n\n\nlaunch_dayPart\nчасть дня, в которую был запущен проект\n1\n\n\nnumber_of_words\nколичество слов в названии проекта\n1\n\n\ncurrency\nвалюта\n1\n\n\nlaunch_hour\nчас запуска\n1"
+  },
+  {
+    "objectID": "projects/hrv-bot.html",
+    "href": "projects/hrv-bot.html",
+    "title": "Telegram-бот: рекомендации по тренировкам на основе HRV (Fitbit)",
+    "section": "",
+    "text": "Персональный Telegram-бот на Python, который ежедневно анализирует показатель вариабельности сердечного ритма (HRV), полученный через Fitbit API, и отправляет рекомендации по тренировкам на основе физиологической готовности.\nПосмотреть репозиторий на Github"
+  },
+  {
+    "objectID": "projects/hrv-bot.html#обзор-проекта",
+    "href": "projects/hrv-bot.html#обзор-проекта",
+    "title": "Telegram-бот: рекомендации по тренировкам на основе HRV (Fitbit)",
+    "section": "",
+    "text": "Персональный Telegram-бот на Python, который ежедневно анализирует показатель вариабельности сердечного ритма (HRV), полученный через Fitbit API, и отправляет рекомендации по тренировкам на основе физиологической готовности.\nПосмотреть репозиторий на Github"
+  },
+  {
+    "objectID": "projects/hrv-bot.html#что-делает-бот",
+    "href": "projects/hrv-bot.html#что-делает-бот",
+    "title": "Telegram-бот: рекомендации по тренировкам на основе HRV (Fitbit)",
+    "section": "Что делает бот?",
+    "text": "Что делает бот?\n\nИзвлекает данные HRV (RMSSD) с вашего Fitbit-устройства\nСравнивает с базовым уровнем и рассчитывает отклонения\nОтправляет в Telegram сообщение с интерпретацией:\n\nДневное и ночное RMSSD\nОтклонения по метрикам\nРекомендация по нагрузке: обычная тренировка, усиленная, отдых\n\n\n\nВсе расчёты и тексты можно легко настроить в Python-скрипте."
+  },
+  {
+    "objectID": "projects/hrv-bot.html#что-нужно-для-запуска",
+    "href": "projects/hrv-bot.html#что-нужно-для-запуска",
+    "title": "Telegram-бот: рекомендации по тренировкам на основе HRV (Fitbit)",
+    "section": "Что нужно для запуска",
+    "text": "Что нужно для запуска\n\nОбязательное:\n\nУстройство Fitbit или Google Pixel Watch (1–4 поколения)\nАккаунт разработчика Fitbit\nЗарегистрированное персональное приложение в Fitbit\nУстановленный Python 3\nTelegram-бот (создаётся через @BotFather)\n\n\n\nОпционально (для автоматических уведомлений по пробуждению):\n\nЗарегистрированный subscriber и subscription на события сна в Fitbit Web API\nПубличный домен с HTTPS (например, через DuckDNS)\nУстановленный сертификат HTTPS (через certbot)\nСервер с слушающим сервисом (webhook), принимающим события от Fitbit\n\nИнструкцию по настройке читайте тут"
+  },
+  {
+    "objectID": "projects/employee-churn.html",
+    "href": "projects/employee-churn.html",
+    "title": "Анализ оттока сотрудников в R&D",
+    "section": "",
+    "text": "В рамках проекта проведён анализ факторов оттока сотрудников в стратегически важном департаменте Research & Development. Использованы данные из SQL-базы, объединены таблицы profile, portfolio, education. Построена модель логистической регрессии на основе обработанных и сбалансированных данных.\nОткрыть интерактивный дэшборд\nПосмотреть полный отчёт с кодом, графиками и анализом"
+  },
+  {
+    "objectID": "projects/employee-churn.html#обзор-проекта",
+    "href": "projects/employee-churn.html#обзор-проекта",
+    "title": "Анализ оттока сотрудников в R&D",
+    "section": "",
+    "text": "В рамках проекта проведён анализ факторов оттока сотрудников в стратегически важном департаменте Research & Development. Использованы данные из SQL-базы, объединены таблицы profile, portfolio, education. Построена модель логистической регрессии на основе обработанных и сбалансированных данных.\nОткрыть интерактивный дэшборд\nПосмотреть полный отчёт с кодом, графиками и анализом"
+  },
+  {
+    "objectID": "projects/employee-churn.html#методы-и-особенности",
+    "href": "projects/employee-churn.html#методы-и-особенности",
+    "title": "Анализ оттока сотрудников в R&D",
+    "section": "Методы и особенности",
+    "text": "Методы и особенности\n\nSQL-запросы к базе данных + предобработка в R\nВизуализация распределений по полу, возрасту, должности, зарплате\nЛогистическая регрессия с SMOTE для балансировки классов\nОценка модели: accuracy 0.81, sensitivity 0.82\nИнтерпретация модели через Odds Ratio и влияние факторов\nСимуляции: влияние сокращения переработок и повышения удовлетворенности"
+  },
+  {
+    "objectID": "projects/employee-churn.html#выводы",
+    "href": "projects/employee-churn.html#выводы",
+    "title": "Анализ оттока сотрудников в R&D",
+    "section": "Выводы",
+    "text": "Выводы\nОсновные факторы, повышающие риск ухода: - переработки (OverTime = Yes) - частые командировки - неудовлетворённость рабочими условиями и отношениями - низкая вовлечённость\nФакторы, снижающие риск ухода: - высокая вовлечённость - высокая удовлетворенность работой - докторская степень\nПредложены конкретные меры: оптимизация нагрузки, повышение вовлечённости и среды, симуляция которых снизила прогнозируемый отток на 22.4%."
+  },
+  {
+    "objectID": "projects/comics-rec.html",
+    "href": "projects/comics-rec.html",
+    "title": "Система рекомендаций комиксов",
+    "section": "",
+    "text": "В данном проекте использовались данные с сайта Good Reads, оценки пользователей, выставленные для комиксов, а также характеристики комиксов.\nСистема рекомендаций комиксов основана на двух подходах: коллаборативная фильтрация и content-based рекомендации. В рамках проекта был проведена предобработка данных, сентимент-анализ описаний, а также использование сетевого анализа.\nПосмотреть полный отчёт с кодом, графиками и анализом"
+  },
+  {
+    "objectID": "projects/comics-rec.html#обзор-проекта",
+    "href": "projects/comics-rec.html#обзор-проекта",
+    "title": "Система рекомендаций комиксов",
+    "section": "",
+    "text": "В данном проекте использовались данные с сайта Good Reads, оценки пользователей, выставленные для комиксов, а также характеристики комиксов.\nСистема рекомендаций комиксов основана на двух подходах: коллаборативная фильтрация и content-based рекомендации. В рамках проекта был проведена предобработка данных, сентимент-анализ описаний, а также использование сетевого анализа.\nПосмотреть полный отчёт с кодом, графиками и анализом"
+  },
+  {
+    "objectID": "projects/comics-rec.html#методы-и-особенности",
+    "href": "projects/comics-rec.html#методы-и-особенности",
+    "title": "Система рекомендаций комиксов",
+    "section": "Методы и особенности",
+    "text": "Методы и особенности\n\nКоллаборативная фильтрация (UBCF): на основе матрицы user-item и оценки RMSE.\nContent-based рекомендации: использовались признаки, такие как издательство, жанры (полки), средний сентимент.\nСетевой анализ: визуализация связей между комиксами (от него впоследствии отказались как от нерелевантного для рекомендаций).\nОценка результатов: как через RMSE/MAE, так и вручную (через тестовых пользователей), проверялась адекватности рекомендаций (путем сравнения характеристик понравившихся и рекомендованных пользователю комиксов)"
+  },
+  {
+    "objectID": "projects/comics-rec.html#ключевые-особенности",
+    "href": "projects/comics-rec.html#ключевые-особенности",
+    "title": "Система рекомендаций комиксов",
+    "section": "Ключевые особенности",
+    "text": "Ключевые особенности\n\nПредобработка: добавление тестовых пользователей и оценок, чистка данных\nСентимент-анализ: описание разбивалось на слова, считался средний сентимент по каждому комиксу\nContent-based: строилась матрица схожести между комиксами по выбранным признакам"
+  },
+  {
+    "objectID": "projects/comics-rec.html#выводы",
+    "href": "projects/comics-rec.html#выводы",
+    "title": "Система рекомендаций комиксов",
+    "section": "Выводы",
+    "text": "Выводы\n\nРезультаты сетевого анализа показали, что он не имеет ничего полезного для рекомендации, поэтому решено было его не использовать.\nФормальная оценка коллаборативной фильтрации показала, что модель, построенная методом UBCF работает лучше, чем IBCF, поскольку имеет более низкие значения RMSE,MSE и MAE. Следовательно, для создания функции мы использовали ее.\nСравнивая характеристики (проверка на адекватность) комиксов, которые понравились пользователю и которые были рекомендованы content-based, мы пришли к выводу, что content-based система работает хорошо.\nОсновываясь на внутренней пользовательской оценке система content-based лучше справилась с рекомендациями, чем коллаборативная фильтрация: названия издательств и пользовательских полок были такие же, как и в тех, которым пользователь поставил высокую оценку."
+  },
+  {
+    "objectID": "portfolio.html",
+    "href": "portfolio.html",
+    "title": "Портфолио",
+    "section": "",
+    "text": "Эксперименты с Простыми Числами\n\n\nА что если Простые Числа не случайны и живут в своем “Пространстве Простых Чисел”? В этом проекте исследуем, как классический датасет вин (wines) выглядит в 2D-11D Пространстве Простых чисел. Как хорошо удастся нам различить сорта вин? А удастся ли показать улучшение в качестве кластеризации?\n\n\nРаскрывая Вина (2D) →\n\n\nРаскрывая Вина (3D) →\n\n\nРаскрывая Вина (Качество Кластеризации) →"
+  },
+  {
+    "objectID": "portfolio.html#эксперименты",
+    "href": "portfolio.html#эксперименты",
+    "title": "Портфолио",
+    "section": "",
+    "text": "Эксперименты с Простыми Числами\n\n\nА что если Простые Числа не случайны и живут в своем “Пространстве Простых Чисел”? В этом проекте исследуем, как классический датасет вин (wines) выглядит в 2D-11D Пространстве Простых чисел. Как хорошо удастся нам различить сорта вин? А удастся ли показать улучшение в качестве кластеризации?\n\n\nРаскрывая Вина (2D) →\n\n\nРаскрывая Вина (3D) →\n\n\nРаскрывая Вина (Качество Кластеризации) →"
+  },
+  {
+    "objectID": "portfolio.html#машинное-обучение-и-моделирование",
+    "href": "portfolio.html#машинное-обучение-и-моделирование",
+    "title": "Портфолио",
+    "section": "Машинное обучение и моделирование",
+    "text": "Машинное обучение и моделирование\n\n\n\n\n\n\nСистема рекомендаций комиксов\n\n\nКоллаборативная фильтрация (ALS, user-item матрица, оценка RMSE).\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nАнализ оттока сотрудников в R&D\n\n\nSQL + R анализ: соединение таблиц, визуализация и логистическая регрессия. Выявлены ключевые факторы оттока (переработки, командировки), дэшборд для HR.\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nFE Models & Double ML (Магистерская диссертация)\n\n\nФиксированные эффекты и двойное машинное обучение. CausalML, heterogeneity analysis.\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nАнализ данных по Kickstarter\n\n\nПредсказание успешности проекта\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nАнализ данных по авиаперевозкам\n\n\nИсследование оценок лаундж-зон и самолетов.\n\n\nПодробнее →"
+  },
+  {
+    "objectID": "portfolio.html#дашборды",
+    "href": "portfolio.html#дашборды",
+    "title": "Портфолио",
+    "section": "Дашборды",
+    "text": "Дашборды\n\n\n\n\n\n\nИнтерактивный дашборд восстановления (сон, HRV, стресс) с ИИ‑инсайтами\n\n\nИнтерактивный дашборд, создан с помощью Streamlit. Автоматическая генерация интерпретаций с помощью языковой модели (LLM). Рекомендуется открывать с компьютера. Чтобы просмотреть интерфейс на русском, воспользуйтесь встроенным переводчиком Google Chrome.\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nИнтерактивный дашборд: отток сотрудников в R&D\n\n\nИнтерактивный дашборд, создан с помощью Shiny.\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nАнализ длины сделки: дашборд\n\n\nДашборд по длине цикла сделки: расчет средних значений, линейные и столбчатые диаграммы. Данные анонимизированы для сохранения конфиденциальности. Создан в Zoho Analytics.\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nДашборд по Kickstarter\n\n\nВизуализация успехов проектов по категориям, времени запуска, названию.\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nДашборд: авиаперевозки\n\n\nИсследование оценок лаундж-зон и самолетов.\n\n\nПодробнее →"
+  },
+  {
+    "objectID": "portfolio.html#боты-и-автоматизация",
+    "href": "portfolio.html#боты-и-автоматизация",
+    "title": "Портфолио",
+    "section": "Боты и автоматизация",
+    "text": "Боты и автоматизация\n\n\n\n\n\n\nTelegram-бот: рекомендации настольных игр\n\n\nБот на R с inline-режимом, база игр, фильтрация по жанрам\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nTelegram-бот: ежедневная готовность по HRV\n\n\nИнтеграция с Fitbit API, расчёт тренировочной готовности, Telegram-уведомления.\n\n\nПодробнее →"
+  },
+  {
+    "objectID": "contact.html",
+    "href": "contact.html",
+    "title": "Контакты",
+    "section": "",
+    "text": "По вопросам аналитики данных, проектов или сотрудничества свяжитесь со мной через любым удобным способом:\n\nEmail/Telegram\n\n\n\nПрофили\n\nGitHub\nLinkedIn"
+  },
+  {
+    "objectID": "certificates.html",
+    "href": "certificates.html",
+    "title": "Сертификаты",
+    "section": "",
+    "text": "Здесь размещены мои сертификаты об обучении. Вы можете скачать PDF или проверить подлинность онлайн.\n\n\n\n\nСертификат\nВыдан\nГод\nЧасы\n📥 Скачать\n🔗 Ссылка\n\n\n\n\nВведение в объектно-ориентированное программирование на Python\nDataCamp\n2025\n3\nСкачать\nОткрыть\n\n\nСтруктуры данных и алгоритмы в Python\nDataCamp\n2025\n4\nСкачать\nОткрыть\n\n\nТрек “Associate Data Scientist in Python”\nDataCamp\n2025\n90\nСкачать\nОткрыть\n\n\nТрек “Associate Data Analyst in SQL”\nDataCamp\n2025\n39\nСкачать\nОткрыть\n\n\nИнтерактивный тренажёр по SQL\nStepik\n2025\n24\nСкачать\nОткрыть\n\n\nВведение в Data Science на Python\nCoursera / Univ. of Michigan\n2023\n30\nСкачать\nОткрыть\n\n\nОбработка и анализ данных (программа повышения квалификации)\nВШЭ\n2023\n760\nСкачать\n—\n\n\nТрек “SQL для бизнес-аналитиков”\nDataCamp\n2022\n20\nСкачать\nОткрыть\n\n\nТрек “Основы SQL”\nDataCamp\n2021\n21\nСкачать\nОткрыть\n\n\nМоделирование с tidymodels на R\nDataCamp\n2021\n4\nСкачать\nОткрыть\n\n\nОбучение без учителя на R\nDataCamp\n2021\n4\nСкачать\nОткрыть"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Анна Пирогова",
+    "section": "",
+    "text": "Я более 4 лет работаю с данными: анализирую, визуализирую, помогаю бизнесу принимать обоснованные решения. Использую Python, PySpark и SQL как основные инструменты."
+  },
+  {
+    "objectID": "index.html#образование",
+    "href": "index.html#образование",
+    "title": "Анна Пирогова",
+    "section": "Образование",
+    "text": "Образование\nСтабульский Технический Университет (ITÜ)| Турция | QS 326 Магистратура по экономике | 2023–2025 | GPA: 3.75/4.0\nБосфорский Университет (Bogaziçi)| Турция | QS 371 Обмен по направлению «Бизнес-администрирование» | 2022–2023 | GPA: 3.42/4.0\nНИУ ВШЭ, Санкт-Петербург| Россия Бакалавриат: Международный бизнес и менеджмент | 2019–2023 | GPA 8.86/10 Minor-специализация: Data Science | 2019-2022 Диплом с отличием | Средний балл: 8.86 / 10"
+  },
+  {
+    "objectID": "index.html#опыт-работы",
+    "href": "index.html#опыт-работы",
+    "title": "Анна Пирогова",
+    "section": "Опыт работы",
+    "text": "Опыт работы\nMegafon, Москва, Россия | Специалист по машинному обучению | Май 2026 - наст. время\nMegafon, Москва, Россия | Стажёр по направлению “Машинное обучение и анализ больших данных” | Февраль 2026 - Май 2026\nPASV (EdTech стартап,Калифорния, США / удалённо) |\nСпециалист по аналитике данных и CRM | Май 2021 – Январь 2026\nНИУ ВШЭ, Санкт-Петербург, Россия | Ассистент преподавателя | Сентябрь 2020 – Июнь 2021"
+  },
+  {
+    "objectID": "index.html#ключевые-инструменты",
+    "href": "index.html#ключевые-инструменты",
+    "title": "Анна Пирогова",
+    "section": "Ключевые инструменты",
+    "text": "Ключевые инструменты\nPython & R · PySpark · Scikit-learn · Hadoop · Pandas · SQL · API · Git\nПерейти к портфолио Перейти к исследованиям Скачать полное резюме Мои контакты:"
+  },
+  {
+    "objectID": "projects/boardgame-bot.html",
+    "href": "projects/boardgame-bot.html",
+    "title": "Telegram-бот: рекомендации настольных игр",
+    "section": "",
+    "text": "Создан Telegram-бот, рекомендующий настольные игры на основе интересов пользователя. Бот реализован на языке R и использует content-based подход: рекомендации строятся на схожести игр по ключевым характеристикам. Также реализована возможность получить случайную игру из базы.\nПосмотреть полный отчёт с кодом и анализом"
+  },
+  {
+    "objectID": "projects/boardgame-bot.html#обзор-проекта",
+    "href": "projects/boardgame-bot.html#обзор-проекта",
+    "title": "Telegram-бот: рекомендации настольных игр",
+    "section": "",
+    "text": "Создан Telegram-бот, рекомендующий настольные игры на основе интересов пользователя. Бот реализован на языке R и использует content-based подход: рекомендации строятся на схожести игр по ключевым характеристикам. Также реализована возможность получить случайную игру из базы.\nПосмотреть полный отчёт с кодом и анализом"
+  },
+  {
+    "objectID": "projects/boardgame-bot.html#данные-и-методы",
+    "href": "projects/boardgame-bot.html#данные-и-методы",
+    "title": "Telegram-бот: рекомендации настольных игр",
+    "section": "Данные и методы",
+    "text": "Данные и методы\n\nДанные с GitHub: ~24 признака, отфильтровано и обработано 1000+ игр\nКластеризация K-means (12 кластеров) и расчёт расстояния Говера для оценки схожести игр\nРекомендации на основе матрицы различий\nКатегории объединены и закодированы (83 → 14)\nTelegram-бот реализует команды /recommend, /random, /help, /start"
+  },
+  {
+    "objectID": "projects/boardgame-bot.html#основные-выводы",
+    "href": "projects/boardgame-bot.html#основные-выводы",
+    "title": "Telegram-бот: рекомендации настольных игр",
+    "section": "Основные выводы",
+    "text": "Основные выводы\n\nБот успешно выдает адекватные рекомендации (оценка — экспертная)\nСамые популярные игры — стратегические/карточные (кластер 2)\nДолгие по времени — военные игры (кластер 9)\nИнтерфейс протестирован, функциональность подтверждена\nТребуется хостинг и доработка UX для масштабирования"
+  },
+  {
+    "objectID": "projects/flights.html",
+    "href": "projects/flights.html",
+    "title": "Анализ данных по авиаперевозкам",
+    "section": "",
+    "text": "Выявить проблемы в сфере авиаперевозок и предложить улучшения на основе анализа данных.\nПосмотреть полный отчёт с графиками и анализом\nПосмотреть дашборд\n\n\n\n1. Комфорт пространства для ног\nЛучшие модели: Airbus 340-300, Boeing 777-200LR и др.\nХудшие: Boeing 737-800, Airbus 340 и др.\n→ Рекомендуется улучшить конфигурации у моделей с рейтингом ≤ 2. Анкеты — сделать модель конкретной.\n2. Маршруты с пересадками\nТолько 94 из 1000 маршрутов — с пересадками.\n→ Добавить в анкету вопрос про пересадки, чтобы не полагаться на текст отзыва.\n3. Wi-Fi в лаунж-зонах vs аэропорты\nТолько 11 лаунж-зон оценены выше по Wi-Fi.\n→ Улучшать Wi-Fi в аэропортах и собирать больше данных.\n\n\n\n\nУпростить и стандартизировать анкету\nСделать обязательными ключевые вопросы (пересадки, Wi-Fi)\nФокус на моделях с низким рейтингом комфорта\nПродолжить исследование влияния комфорта и Wi-Fi на общие оценки"
+  },
+  {
+    "objectID": "projects/flights.html#цель",
+    "href": "projects/flights.html#цель",
+    "title": "Анализ данных по авиаперевозкам",
+    "section": "",
+    "text": "Выявить проблемы в сфере авиаперевозок и предложить улучшения на основе анализа данных.\nПосмотреть полный отчёт с графиками и анализом\nПосмотреть дашборд"
+  },
+  {
+    "objectID": "projects/flights.html#ключевые-выводы",
+    "href": "projects/flights.html#ключевые-выводы",
+    "title": "Анализ данных по авиаперевозкам",
+    "section": "",
+    "text": "1. Комфорт пространства для ног\nЛучшие модели: Airbus 340-300, Boeing 777-200LR и др.\nХудшие: Boeing 737-800, Airbus 340 и др.\n→ Рекомендуется улучшить конфигурации у моделей с рейтингом ≤ 2. Анкеты — сделать модель конкретной.\n2. Маршруты с пересадками\nТолько 94 из 1000 маршрутов — с пересадками.\n→ Добавить в анкету вопрос про пересадки, чтобы не полагаться на текст отзыва.\n3. Wi-Fi в лаунж-зонах vs аэропорты\nТолько 11 лаунж-зон оценены выше по Wi-Fi.\n→ Улучшать Wi-Fi в аэропортах и собирать больше данных."
+  },
+  {
+    "objectID": "projects/flights.html#рекомендации",
+    "href": "projects/flights.html#рекомендации",
+    "title": "Анализ данных по авиаперевозкам",
+    "section": "",
+    "text": "Упростить и стандартизировать анкету\nСделать обязательными ключевые вопросы (пересадки, Wi-Fi)\nФокус на моделях с низким рейтингом комфорта\nПродолжить исследование влияния комфорта и Wi-Fi на общие оценки"
+  },
+  {
     "objectID": "projects/kickstarter.html",
     "href": "projects/kickstarter.html",
     "title": "Анализ данных по проектам Kickstarter",
@@ -98,227 +336,17 @@
     "text": "6.3 Интерпретация групп\nУпрощённая модель выделяет 7 групп проектов с разными вероятностями успеха:\n\nНеблагоприятные подкатегории → неуспешен\n\nБлагоприятные подкатегории → успешен\n\nВысокая цель (&gt;31 000 USD) → неуспешен\n\nДлинная кампания (&gt;56 дней) → неуспешен\n\nМалая цель (&lt;1418 USD) → успешен\n\nЗапуск вечером/ночью → неуспешен\n\nЗапуск днём + умеренная цель → успешен"
   },
   {
-    "objectID": "projects/flights.html",
-    "href": "projects/flights.html",
-    "title": "Анализ данных по авиаперевозкам",
+    "objectID": "reports/unfolding-wines-2D.html",
+    "href": "reports/unfolding-wines-2D.html",
+    "title": "Раскрывая вина в 2D: как выглядит набор данных о винах в 2D-11D Пространстве Простых Чисел?",
     "section": "",
-    "text": "Выявить проблемы в сфере авиаперевозок и предложить улучшения на основе анализа данных.\nПосмотреть полный отчёт с графиками и анализом\nПосмотреть дашборд\n\n\n\n1. Комфорт пространства для ног\nЛучшие модели: Airbus 340-300, Boeing 777-200LR и др.\nХудшие: Boeing 737-800, Airbus 340 и др.\n→ Рекомендуется улучшить конфигурации у моделей с рейтингом ≤ 2. Анкеты — сделать модель конкретной.\n2. Маршруты с пересадками\nТолько 94 из 1000 маршрутов — с пересадками.\n→ Добавить в анкету вопрос про пересадки, чтобы не полагаться на текст отзыва.\n3. Wi-Fi в лаунж-зонах vs аэропорты\nТолько 11 лаунж-зон оценены выше по Wi-Fi.\n→ Улучшать Wi-Fi в аэропортах и собирать больше данных.\n\n\n\n\nУпростить и стандартизировать анкету\nСделать обязательными ключевые вопросы (пересадки, Wi-Fi)\nФокус на моделях с низким рейтингом комфорта\nПродолжить исследование влияния комфорта и Wi-Fi на общие оценки"
+    "text": "В этом проекте мы используем первые 11 простых чисел в качестве осей и проецируем признаки (features) датасета вин (wines) на эти оси (prime axes). После этого мы визуализируем, как выглядят наши вина от 2D до 11D в так называемом “Пространстве Простых Чисел”, используя UMAP и matplotlib. 2D значит, что мы используем только первые 2 простых числа, а 11D значит, что все 11 простых чисел были использованы, в качестве осей. UMAP используется для проекции и визуализации обратно в нашу 2D плоскость. Для интерактивной 3D визуализации, пожалуйста, посетите эту страницу →. Для просмотра оценок качества кластеризации, пожалуйста, посетите эту страницу →.\nМне кажется, что разделение вин на сорта видно все ярче, по мере того, как мы приближаемся “11D Пространству Простых Чисел”. Визуализации интерактивные, и вы можете перемещаться внутри визуализации, чтобы рассмотреть ее с разных углов.\nВажное замечание: это мой личный эксперимент, поэтому здесь не будет математических формальных обозначений или теоретических доказательств, касающихся пространства простых чисел. Если кто-то захочет формализовать эту методологию, я оставляю эту задачу математикам :)\n\nimport numpy as np\nfrom fractions import Fraction\nfrom tqdm import tqdm\nfrom scipy.optimize import lsq_linear\nfrom sklearn.datasets import load_wine\nfrom umap import UMAP\nimport matplotlib.pyplot as plt\nimport warnings\nwarnings.filterwarnings(\"ignore\")\n\n# Load Wine dataset\ndataset = load_wine()\nX_raw = dataset.data\ny = dataset.target\nn_samples, n_features = X_raw.shape\n\n# First 11 prime numbers\nprime_list = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]\nlog_primes = np.log(prime_list)\n\n# Scalar projection\ndef project_scalar(val, log_basis, bounds=(-6, 6)):\n    try:\n        log_target = np.log(float(val))\n        res = lsq_linear(log_basis.reshape(1, -1), [log_target], bounds=bounds, lsmr_tol='auto')\n        return res.x\n    except:\n        return np.zeros(len(log_basis))\n\n# Full dataset projection\ndef project_dataset_prime_space(X_raw, dim):\n    basis = log_primes[:dim]\n    X_frac = np.vectorize(Fraction)(X_raw)\n    projected = []\n\n    for sample in tqdm(X_frac, desc=f\"Projecting to Prime {dim}D Space\"):\n        sample_proj = []\n        for val in sample:\n            vec = project_scalar(val, basis)\n            sample_proj.extend(vec)\n        projected.append(sample_proj)\n\n    return np.array(projected)\n\n# Plotting function\ndef plot_umap(X, y, title):\n    umap_2D = UMAP(n_components=3, random_state=7)\n    X_umap = umap_2D.fit_transform(X)\n\n    plt.figure(figsize=(7, 6))\n    plt.scatter(X_umap[:, 0], X_umap[:, 1], c=y, cmap='viridis', s=20)\n    plt.title(title)\n    plt.xlabel(\"UMAP 1\")\n    plt.ylabel(\"UMAP 2\")\n    plt.grid(True)\n    plt.tight_layout()\n    plt.show()\n\n# Raw data UMAP\nplot_umap(X_raw, y, \"UMAP на Сыром Датасете Вин (13D)\")\n\n# Prime projections from 2D to 11D\nfor dim in range(2, 12):\n    X_prime = project_dataset_prime_space(X_raw, dim)\n    total_dim = dim * n_features\n    plot_umap(X_prime, y, f\"UMAP на {dim}D Проекции с помощью Простых Чисел ({total_dim}D)\")\n\nC:\\Users\\Admin\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\tqdm\\auto.py:21: TqdmWarning:\n\nIProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html\n\n\n\n\n\n\n\n\n\n\nProjecting to Prime 2D Space:   0%|          | 0/178 [00:00&lt;?, ?it/s]Projecting to Prime 2D Space: 100%|██████████| 178/178 [00:00&lt;00:00, 2224.44it/s]\n\n\n\n\n\n\n\n\n\nProjecting to Prime 3D Space:   0%|          | 0/178 [00:00&lt;?, ?it/s]Projecting to Prime 3D Space: 100%|██████████| 178/178 [00:00&lt;00:00, 2224.76it/s]\n\n\n\n\n\n\n\n\n\nProjecting to Prime 4D Space:   0%|          | 0/178 [00:00&lt;?, ?it/s]Projecting to Prime 4D Space: 100%|██████████| 178/178 [00:00&lt;00:00, 2170.79it/s]\n\n\n\n\n\n\n\n\n\nProjecting to Prime 5D Space:   0%|          | 0/178 [00:00&lt;?, ?it/s]Projecting to Prime 5D Space: 100%|██████████| 178/178 [00:00&lt;00:00, 1971.22it/s]\n\n\n\n\n\n\n\n\n\nProjecting to Prime 6D Space:   0%|          | 0/178 [00:00&lt;?, ?it/s]Projecting to Prime 6D Space: 100%|██████████| 178/178 [00:00&lt;00:00, 1999.90it/s]\n\n\n\n\n\n\n\n\n\nProjecting to Prime 7D Space:   0%|          | 0/178 [00:00&lt;?, ?it/s]Projecting to Prime 7D Space: 100%|██████████| 178/178 [00:00&lt;00:00, 2043.58it/s]\n\n\n\n\n\n\n\n\n\nProjecting to Prime 8D Space:   0%|          | 0/178 [00:00&lt;?, ?it/s]Projecting to Prime 8D Space: 100%|██████████| 178/178 [00:00&lt;00:00, 1776.80it/s]Projecting to Prime 8D Space: 100%|██████████| 178/178 [00:00&lt;00:00, 1759.26it/s]\n\n\n\n\n\n\n\n\n\nProjecting to Prime 9D Space:   0%|          | 0/178 [00:00&lt;?, ?it/s]Projecting to Prime 9D Space: 100%|██████████| 178/178 [00:00&lt;00:00, 1909.21it/s]\n\n\n\n\n\n\n\n\n\nProjecting to Prime 10D Space:   0%|          | 0/178 [00:00&lt;?, ?it/s]Projecting to Prime 10D Space: 100%|██████████| 178/178 [00:00&lt;00:00, 1954.21it/s]\n\n\n\n\n\n\n\n\n\nProjecting to Prime 11D Space:   0%|          | 0/178 [00:00&lt;?, ?it/s]Projecting to Prime 11D Space: 100%|██████████| 178/178 [00:00&lt;00:00, 1913.89it/s]"
   },
   {
-    "objectID": "projects/flights.html#цель",
-    "href": "projects/flights.html#цель",
-    "title": "Анализ данных по авиаперевозкам",
+    "objectID": "reports/unfolding-wines-clustering-quality.html",
+    "href": "reports/unfolding-wines-clustering-quality.html",
+    "title": "Раскрывая Вина - Оцениваем Качество Кластеризации с Винами в Пространстве Простых Чисел",
     "section": "",
-    "text": "Выявить проблемы в сфере авиаперевозок и предложить улучшения на основе анализа данных.\nПосмотреть полный отчёт с графиками и анализом\nПосмотреть дашборд"
-  },
-  {
-    "objectID": "projects/flights.html#ключевые-выводы",
-    "href": "projects/flights.html#ключевые-выводы",
-    "title": "Анализ данных по авиаперевозкам",
-    "section": "",
-    "text": "1. Комфорт пространства для ног\nЛучшие модели: Airbus 340-300, Boeing 777-200LR и др.\nХудшие: Boeing 737-800, Airbus 340 и др.\n→ Рекомендуется улучшить конфигурации у моделей с рейтингом ≤ 2. Анкеты — сделать модель конкретной.\n2. Маршруты с пересадками\nТолько 94 из 1000 маршрутов — с пересадками.\n→ Добавить в анкету вопрос про пересадки, чтобы не полагаться на текст отзыва.\n3. Wi-Fi в лаунж-зонах vs аэропорты\nТолько 11 лаунж-зон оценены выше по Wi-Fi.\n→ Улучшать Wi-Fi в аэропортах и собирать больше данных."
-  },
-  {
-    "objectID": "projects/flights.html#рекомендации",
-    "href": "projects/flights.html#рекомендации",
-    "title": "Анализ данных по авиаперевозкам",
-    "section": "",
-    "text": "Упростить и стандартизировать анкету\nСделать обязательными ключевые вопросы (пересадки, Wi-Fi)\nФокус на моделях с низким рейтингом комфорта\nПродолжить исследование влияния комфорта и Wi-Fi на общие оценки"
-  },
-  {
-    "objectID": "projects/boardgame-bot.html",
-    "href": "projects/boardgame-bot.html",
-    "title": "Telegram-бот: рекомендации настольных игр",
-    "section": "",
-    "text": "Создан Telegram-бот, рекомендующий настольные игры на основе интересов пользователя. Бот реализован на языке R и использует content-based подход: рекомендации строятся на схожести игр по ключевым характеристикам. Также реализована возможность получить случайную игру из базы.\nПосмотреть полный отчёт с кодом и анализом"
-  },
-  {
-    "objectID": "projects/boardgame-bot.html#обзор-проекта",
-    "href": "projects/boardgame-bot.html#обзор-проекта",
-    "title": "Telegram-бот: рекомендации настольных игр",
-    "section": "",
-    "text": "Создан Telegram-бот, рекомендующий настольные игры на основе интересов пользователя. Бот реализован на языке R и использует content-based подход: рекомендации строятся на схожести игр по ключевым характеристикам. Также реализована возможность получить случайную игру из базы.\nПосмотреть полный отчёт с кодом и анализом"
-  },
-  {
-    "objectID": "projects/boardgame-bot.html#данные-и-методы",
-    "href": "projects/boardgame-bot.html#данные-и-методы",
-    "title": "Telegram-бот: рекомендации настольных игр",
-    "section": "Данные и методы",
-    "text": "Данные и методы\n\nДанные с GitHub: ~24 признака, отфильтровано и обработано 1000+ игр\nКластеризация K-means (12 кластеров) и расчёт расстояния Говера для оценки схожести игр\nРекомендации на основе матрицы различий\nКатегории объединены и закодированы (83 → 14)\nTelegram-бот реализует команды /recommend, /random, /help, /start"
-  },
-  {
-    "objectID": "projects/boardgame-bot.html#основные-выводы",
-    "href": "projects/boardgame-bot.html#основные-выводы",
-    "title": "Telegram-бот: рекомендации настольных игр",
-    "section": "Основные выводы",
-    "text": "Основные выводы\n\nБот успешно выдает адекватные рекомендации (оценка — экспертная)\nСамые популярные игры — стратегические/карточные (кластер 2)\nДолгие по времени — военные игры (кластер 9)\nИнтерфейс протестирован, функциональность подтверждена\nТребуется хостинг и доработка UX для масштабирования"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Анна Пирогова",
-    "section": "",
-    "text": "Я более 4 лет работаю с данными: анализирую, визуализирую, помогаю бизнесу принимать обоснованные решения. Использую Python, PySpark и SQL как основные инструменты."
-  },
-  {
-    "objectID": "index.html#образование",
-    "href": "index.html#образование",
-    "title": "Анна Пирогова",
-    "section": "Образование",
-    "text": "Образование\nСтабульский Технический Университет (ITÜ)| Турция | QS 326 Магистратура по экономике | 2023–2025 | GPA: 3.75/4.0\nБосфорский Университет (Bogaziçi)| Турция | QS 371 Обмен по направлению «Бизнес-администрирование» | 2022–2023 | GPA: 3.42/4.0\nНИУ ВШЭ, Санкт-Петербург| Россия Бакалавриат: Международный бизнес и менеджмент | 2019–2023 | GPA 8.86/10 Minor-специализация: Data Science | 2019-2022 Диплом с отличием | Средний балл: 8.86 / 10"
-  },
-  {
-    "objectID": "index.html#опыт-работы",
-    "href": "index.html#опыт-работы",
-    "title": "Анна Пирогова",
-    "section": "Опыт работы",
-    "text": "Опыт работы\nMegafon, Москва, Россия | Специалист по машинному обучению | Май 2026 - наст. время\nMegafon, Москва, Россия | Стажёр по направлению “Машинное обучение и анализ больших данных” | Февраль 2026 - Май 2026\nPASV (EdTech стартап,Калифорния, США / удалённо) |\nСпециалист по аналитике данных и CRM | Май 2021 – Январь 2026\nНИУ ВШЭ, Санкт-Петербург, Россия | Ассистент преподавателя | Сентябрь 2020 – Июнь 2021"
-  },
-  {
-    "objectID": "index.html#ключевые-инструменты",
-    "href": "index.html#ключевые-инструменты",
-    "title": "Анна Пирогова",
-    "section": "Ключевые инструменты",
-    "text": "Ключевые инструменты\nPython & R · PySpark · Scikit-learn · Hadoop · Pandas · SQL · API · Git\nПерейти к портфолио Перейти к исследованиям Скачать полное резюме Мои контакты:"
-  },
-  {
-    "objectID": "certificates.html",
-    "href": "certificates.html",
-    "title": "Сертификаты",
-    "section": "",
-    "text": "Здесь размещены мои сертификаты об обучении. Вы можете скачать PDF или проверить подлинность онлайн.\n\n\n\n\nСертификат\nВыдан\nГод\nЧасы\n📥 Скачать\n🔗 Ссылка\n\n\n\n\nВведение в объектно-ориентированное программирование на Python\nDataCamp\n2025\n3\nСкачать\nОткрыть\n\n\nСтруктуры данных и алгоритмы в Python\nDataCamp\n2025\n4\nСкачать\nОткрыть\n\n\nТрек “Associate Data Scientist in Python”\nDataCamp\n2025\n90\nСкачать\nОткрыть\n\n\nТрек “Associate Data Analyst in SQL”\nDataCamp\n2025\n39\nСкачать\nОткрыть\n\n\nИнтерактивный тренажёр по SQL\nStepik\n2025\n24\nСкачать\nОткрыть\n\n\nВведение в Data Science на Python\nCoursera / Univ. of Michigan\n2023\n30\nСкачать\nОткрыть\n\n\nОбработка и анализ данных (программа повышения квалификации)\nВШЭ\n2023\n760\nСкачать\n—\n\n\nТрек “SQL для бизнес-аналитиков”\nDataCamp\n2022\n20\nСкачать\nОткрыть\n\n\nТрек “Основы SQL”\nDataCamp\n2021\n21\nСкачать\nОткрыть\n\n\nМоделирование с tidymodels на R\nDataCamp\n2021\n4\nСкачать\nОткрыть\n\n\nОбучение без учителя на R\nDataCamp\n2021\n4\nСкачать\nОткрыть"
-  },
-  {
-    "objectID": "contact.html",
-    "href": "contact.html",
-    "title": "Контакты",
-    "section": "",
-    "text": "По вопросам аналитики данных, проектов или сотрудничества свяжитесь со мной через любым удобным способом:\n\nEmail/Telegram\n\n\n\nПрофили\n\nGitHub\nLinkedIn"
-  },
-  {
-    "objectID": "portfolio.html",
-    "href": "portfolio.html",
-    "title": "Портфолио",
-    "section": "",
-    "text": "Система рекомендаций комиксов\n\n\nКоллаборативная фильтрация (ALS, user-item матрица, оценка RMSE).\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nАнализ оттока сотрудников в R&D\n\n\nSQL + R анализ: соединение таблиц, визуализация и логистическая регрессия. Выявлены ключевые факторы оттока (переработки, командировки), дэшборд для HR.\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nFE Models & Double ML (Магистерская диссертация)\n\n\nФиксированные эффекты и двойное машинное обучение. CausalML, heterogeneity analysis.\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nАнализ данных по Kickstarter\n\n\nПредсказание успешности проекта\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nАнализ данных по авиаперевозкам\n\n\nИсследование оценок лаундж-зон и самолетов.\n\n\nПодробнее →"
-  },
-  {
-    "objectID": "portfolio.html#машинное-обучение-и-моделирование",
-    "href": "portfolio.html#машинное-обучение-и-моделирование",
-    "title": "Портфолио",
-    "section": "",
-    "text": "Система рекомендаций комиксов\n\n\nКоллаборативная фильтрация (ALS, user-item матрица, оценка RMSE).\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nАнализ оттока сотрудников в R&D\n\n\nSQL + R анализ: соединение таблиц, визуализация и логистическая регрессия. Выявлены ключевые факторы оттока (переработки, командировки), дэшборд для HR.\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nFE Models & Double ML (Магистерская диссертация)\n\n\nФиксированные эффекты и двойное машинное обучение. CausalML, heterogeneity analysis.\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nАнализ данных по Kickstarter\n\n\nПредсказание успешности проекта\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nАнализ данных по авиаперевозкам\n\n\nИсследование оценок лаундж-зон и самолетов.\n\n\nПодробнее →"
-  },
-  {
-    "objectID": "portfolio.html#дашборды",
-    "href": "portfolio.html#дашборды",
-    "title": "Портфолио",
-    "section": "Дашборды",
-    "text": "Дашборды\n\n\n\n\n\n\nИнтерактивный дашборд восстановления (сон, HRV, стресс) с ИИ‑инсайтами\n\n\nИнтерактивный дашборд, создан с помощью Streamlit. Автоматическая генерация интерпретаций с помощью языковой модели (LLM). Рекомендуется открывать с компьютера. Чтобы просмотреть интерфейс на русском, воспользуйтесь встроенным переводчиком Google Chrome.\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nИнтерактивный дашборд: отток сотрудников в R&D\n\n\nИнтерактивный дашборд, создан с помощью Shiny.\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nАнализ длины сделки: дашборд\n\n\nДашборд по длине цикла сделки: расчет средних значений, линейные и столбчатые диаграммы. Данные анонимизированы для сохранения конфиденциальности. Создан в Zoho Analytics.\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nДашборд по Kickstarter\n\n\nВизуализация успехов проектов по категориям, времени запуска, названию.\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nДашборд: авиаперевозки\n\n\nИсследование оценок лаундж-зон и самолетов.\n\n\nПодробнее →"
-  },
-  {
-    "objectID": "portfolio.html#боты-и-автоматизация",
-    "href": "portfolio.html#боты-и-автоматизация",
-    "title": "Портфолио",
-    "section": "Боты и автоматизация",
-    "text": "Боты и автоматизация\n\n\n\n\n\n\nTelegram-бот: рекомендации настольных игр\n\n\nБот на R с inline-режимом, база игр, фильтрация по жанрам\n\n\nПодробнее →\n\n\n\n\n\n\n\n\n\nTelegram-бот: ежедневная готовность по HRV\n\n\nИнтеграция с Fitbit API, расчёт тренировочной готовности, Telegram-уведомления.\n\n\nПодробнее →"
-  },
-  {
-    "objectID": "projects/comics-rec.html",
-    "href": "projects/comics-rec.html",
-    "title": "Система рекомендаций комиксов",
-    "section": "",
-    "text": "В данном проекте использовались данные с сайта Good Reads, оценки пользователей, выставленные для комиксов, а также характеристики комиксов.\nСистема рекомендаций комиксов основана на двух подходах: коллаборативная фильтрация и content-based рекомендации. В рамках проекта был проведена предобработка данных, сентимент-анализ описаний, а также использование сетевого анализа.\nПосмотреть полный отчёт с кодом, графиками и анализом"
-  },
-  {
-    "objectID": "projects/comics-rec.html#обзор-проекта",
-    "href": "projects/comics-rec.html#обзор-проекта",
-    "title": "Система рекомендаций комиксов",
-    "section": "",
-    "text": "В данном проекте использовались данные с сайта Good Reads, оценки пользователей, выставленные для комиксов, а также характеристики комиксов.\nСистема рекомендаций комиксов основана на двух подходах: коллаборативная фильтрация и content-based рекомендации. В рамках проекта был проведена предобработка данных, сентимент-анализ описаний, а также использование сетевого анализа.\nПосмотреть полный отчёт с кодом, графиками и анализом"
-  },
-  {
-    "objectID": "projects/comics-rec.html#методы-и-особенности",
-    "href": "projects/comics-rec.html#методы-и-особенности",
-    "title": "Система рекомендаций комиксов",
-    "section": "Методы и особенности",
-    "text": "Методы и особенности\n\nКоллаборативная фильтрация (UBCF): на основе матрицы user-item и оценки RMSE.\nContent-based рекомендации: использовались признаки, такие как издательство, жанры (полки), средний сентимент.\nСетевой анализ: визуализация связей между комиксами (от него впоследствии отказались как от нерелевантного для рекомендаций).\nОценка результатов: как через RMSE/MAE, так и вручную (через тестовых пользователей), проверялась адекватности рекомендаций (путем сравнения характеристик понравившихся и рекомендованных пользователю комиксов)"
-  },
-  {
-    "objectID": "projects/comics-rec.html#ключевые-особенности",
-    "href": "projects/comics-rec.html#ключевые-особенности",
-    "title": "Система рекомендаций комиксов",
-    "section": "Ключевые особенности",
-    "text": "Ключевые особенности\n\nПредобработка: добавление тестовых пользователей и оценок, чистка данных\nСентимент-анализ: описание разбивалось на слова, считался средний сентимент по каждому комиксу\nContent-based: строилась матрица схожести между комиксами по выбранным признакам"
-  },
-  {
-    "objectID": "projects/comics-rec.html#выводы",
-    "href": "projects/comics-rec.html#выводы",
-    "title": "Система рекомендаций комиксов",
-    "section": "Выводы",
-    "text": "Выводы\n\nРезультаты сетевого анализа показали, что он не имеет ничего полезного для рекомендации, поэтому решено было его не использовать.\nФормальная оценка коллаборативной фильтрации показала, что модель, построенная методом UBCF работает лучше, чем IBCF, поскольку имеет более низкие значения RMSE,MSE и MAE. Следовательно, для создания функции мы использовали ее.\nСравнивая характеристики (проверка на адекватность) комиксов, которые понравились пользователю и которые были рекомендованы content-based, мы пришли к выводу, что content-based система работает хорошо.\nОсновываясь на внутренней пользовательской оценке система content-based лучше справилась с рекомендациями, чем коллаборативная фильтрация: названия издательств и пользовательских полок были такие же, как и в тех, которым пользователь поставил высокую оценку."
-  },
-  {
-    "objectID": "projects/employee-churn.html",
-    "href": "projects/employee-churn.html",
-    "title": "Анализ оттока сотрудников в R&D",
-    "section": "",
-    "text": "В рамках проекта проведён анализ факторов оттока сотрудников в стратегически важном департаменте Research & Development. Использованы данные из SQL-базы, объединены таблицы profile, portfolio, education. Построена модель логистической регрессии на основе обработанных и сбалансированных данных.\nОткрыть интерактивный дэшборд\nПосмотреть полный отчёт с кодом, графиками и анализом"
-  },
-  {
-    "objectID": "projects/employee-churn.html#обзор-проекта",
-    "href": "projects/employee-churn.html#обзор-проекта",
-    "title": "Анализ оттока сотрудников в R&D",
-    "section": "",
-    "text": "В рамках проекта проведён анализ факторов оттока сотрудников в стратегически важном департаменте Research & Development. Использованы данные из SQL-базы, объединены таблицы profile, portfolio, education. Построена модель логистической регрессии на основе обработанных и сбалансированных данных.\nОткрыть интерактивный дэшборд\nПосмотреть полный отчёт с кодом, графиками и анализом"
-  },
-  {
-    "objectID": "projects/employee-churn.html#методы-и-особенности",
-    "href": "projects/employee-churn.html#методы-и-особенности",
-    "title": "Анализ оттока сотрудников в R&D",
-    "section": "Методы и особенности",
-    "text": "Методы и особенности\n\nSQL-запросы к базе данных + предобработка в R\nВизуализация распределений по полу, возрасту, должности, зарплате\nЛогистическая регрессия с SMOTE для балансировки классов\nОценка модели: accuracy 0.81, sensitivity 0.82\nИнтерпретация модели через Odds Ratio и влияние факторов\nСимуляции: влияние сокращения переработок и повышения удовлетворенности"
-  },
-  {
-    "objectID": "projects/employee-churn.html#выводы",
-    "href": "projects/employee-churn.html#выводы",
-    "title": "Анализ оттока сотрудников в R&D",
-    "section": "Выводы",
-    "text": "Выводы\nОсновные факторы, повышающие риск ухода: - переработки (OverTime = Yes) - частые командировки - неудовлетворённость рабочими условиями и отношениями - низкая вовлечённость\nФакторы, снижающие риск ухода: - высокая вовлечённость - высокая удовлетворенность работой - докторская степень\nПредложены конкретные меры: оптимизация нагрузки, повышение вовлечённости и среды, симуляция которых снизила прогнозируемый отток на 22.4%."
-  },
-  {
-    "objectID": "projects/hrv-bot.html",
-    "href": "projects/hrv-bot.html",
-    "title": "Telegram-бот: рекомендации по тренировкам на основе HRV (Fitbit)",
-    "section": "",
-    "text": "Персональный Telegram-бот на Python, который ежедневно анализирует показатель вариабельности сердечного ритма (HRV), полученный через Fitbit API, и отправляет рекомендации по тренировкам на основе физиологической готовности.\nПосмотреть репозиторий на Github"
-  },
-  {
-    "objectID": "projects/hrv-bot.html#обзор-проекта",
-    "href": "projects/hrv-bot.html#обзор-проекта",
-    "title": "Telegram-бот: рекомендации по тренировкам на основе HRV (Fitbit)",
-    "section": "",
-    "text": "Персональный Telegram-бот на Python, который ежедневно анализирует показатель вариабельности сердечного ритма (HRV), полученный через Fitbit API, и отправляет рекомендации по тренировкам на основе физиологической готовности.\nПосмотреть репозиторий на Github"
-  },
-  {
-    "objectID": "projects/hrv-bot.html#что-делает-бот",
-    "href": "projects/hrv-bot.html#что-делает-бот",
-    "title": "Telegram-бот: рекомендации по тренировкам на основе HRV (Fitbit)",
-    "section": "Что делает бот?",
-    "text": "Что делает бот?\n\nИзвлекает данные HRV (RMSSD) с вашего Fitbit-устройства\nСравнивает с базовым уровнем и рассчитывает отклонения\nОтправляет в Telegram сообщение с интерпретацией:\n\nДневное и ночное RMSSD\nОтклонения по метрикам\nРекомендация по нагрузке: обычная тренировка, усиленная, отдых\n\n\n\nВсе расчёты и тексты можно легко настроить в Python-скрипте."
-  },
-  {
-    "objectID": "projects/hrv-bot.html#что-нужно-для-запуска",
-    "href": "projects/hrv-bot.html#что-нужно-для-запуска",
-    "title": "Telegram-бот: рекомендации по тренировкам на основе HRV (Fitbit)",
-    "section": "Что нужно для запуска",
-    "text": "Что нужно для запуска\n\nОбязательное:\n\nУстройство Fitbit или Google Pixel Watch (1–4 поколения)\nАккаунт разработчика Fitbit\nЗарегистрированное персональное приложение в Fitbit\nУстановленный Python 3\nTelegram-бот (создаётся через @BotFather)\n\n\n\nОпционально (для автоматических уведомлений по пробуждению):\n\nЗарегистрированный subscriber и subscription на события сна в Fitbit Web API\nПубличный домен с HTTPS (например, через DuckDNS)\nУстановленный сертификат HTTPS (через certbot)\nСервер с слушающим сервисом (webhook), принимающим события от Fitbit\n\nИнструкцию по настройке читайте тут"
-  },
-  {
-    "objectID": "reports/kickstarter-code.html",
-    "href": "reports/kickstarter-code.html",
-    "title": "Kickstarter - код",
-    "section": "",
-    "text": "Data and libraries\n\nlibrary(readr)\nlibrary(lubridate)\nlibrary(rpart)\nlibrary(rpart.plot)\nlibrary(chron)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)\nlibrary(coin)\nkickstarter = read_csv(\"~/documents/kickstarter.csv\")\n\nData transformation\n\nkickstarter$category=as.factor(kickstarter$category)\nkickstarter$main_category=as.factor(kickstarter$main_category)\nkickstarter$currency=as.factor(kickstarter$currency)\nkickstarter$state=as.factor(kickstarter$state)\nkickstarter$country=as.factor(kickstarter$country)\nkickstarter=kickstarter %&gt;% mutate(launch_date=as.Date(launched)) %&gt;% mutate(period_length=deadline-launch_date,month = month(launch_date),day = day(launch_date),launch_season = case_when(\n    month &gt; 2 & month &lt; 6 ~ \"spring\",\n    month &gt; 5 & month &lt; 9 ~ \"summer\",\n    month &gt; 8 & month &lt; 12 ~ \"autumn\",\n    month &gt; 11 | month &lt; 3 ~ \"winter\",\n    TRUE ~ \"unknown\"),launch_weekday=weekdays.Date(kickstarter$launch_date))\nkickstarter=kickstarter %&gt;% mutate(launch_weekday=weekdays.Date(kickstarter$launch_date),gen_category=str_trim(paste(main_category,\", \",category)),name_length=str_length(name),number_of_words=str_count(name,'\\\\w+'),n_caps_in_name=str_count(name, \"\\\\b[A-Z]{2,}\\\\b\"),has_caps_in_name=case_when(n_caps_in_name&gt;0 ~ 1, TRUE ~ 0),launch_hour=hour(launched), launch_dayPart = case_when(\n    launch_hour &gt; 5 & launch_hour &lt; 13 ~ \"morning\",\n    launch_hour &gt; 11 & launch_hour &lt; 18 ~ \"afternoon\",\n    launch_hour &gt; 17 & launch_hour &lt; 23 ~ \"evening\",\n    launch_hour &gt; 22 | launch_hour &lt; 6 ~ \"night\",\n    TRUE ~ \"unknown\"\n  ),launch_is_weekend=is.weekend(launched),cat_is_cat=case_when(as.character(main_category)==as.character(category)~1,TRUE~0),name_has_marks=as.factor(case_when(str_detect(name,\":\")==TRUE|str_detect(name,\";\")==TRUE|str_detect(name,\"!\")==TRUE~1,TRUE~0)))\n                                                                          \nkickstarter$launch_season=factor(kickstarter$launch_season,levels=c(\"autumn\",\"winter\",\"spring\",\"summer\"))\n\nkickstarter$launch_weekday=factor(kickstarter$launch_weekday,levels=c(\"Monday\",\"Tuesday\", \"Wednesday\",\"Thursday\",\"Friday\",\"Saturday\",\"Sunday\"))\n\nkickstarter$has_caps_in_name=as.factor(kickstarter$has_caps_in_name)\nkickstarter$cat_is_cat=as.factor(kickstarter$cat_is_cat)\nkickstarter$name_has_marks=as.factor(kickstarter$name_has_marks)\nkickstarter$gen_category=kickstarter$gen_category %&gt;% str_replace_all(\" ,  \",\", \")\n\nkickstarter=kickstarter %&gt;% mutate(gen_cat_length=str_length(gen_category),gen_cat_number_words=str_count(gen_category,'\\\\w+'),gen_cat_first_letter=str_extract(gen_category,'[A-Z]'),cat_length=str_length(category),cat_number_words=str_count(category,'\\\\w+'),cat_first_letter=str_extract(category,'[A-Z]'))\n\nkickstarter$gen_category=as.factor(kickstarter$gen_category)\nkickstarter$launch_dayPart=factor(kickstarter$launch_dayPart,levels=c(\"morning\",\"afternoon\",\"evening\",\"night\"))\nkickstarter$gen_cat_first_letter=as.factor(kickstarter$gen_cat_first_letter)\nkickstarter$cat_first_letter=as.factor(kickstarter$cat_first_letter)\n\nProjects by sum graph\n\nkickstarter_sum_by_category=kickstarter %&gt;% group_by(state,main_category) %&gt;% filter(state==\"successful\") %&gt;% summarise(average_sum=round(mean(usd_goal_real),1)) %&gt;% arrange(-average_sum) %&gt;% ungroup() %&gt;% dplyr::select(-state)\nknitr::kable(kickstarter_sum_by_category,col.names=c(\"Основная категория\",\"Средняя сумма реализованных проектов\"))\n\nSuccess of projects by category\n\nkickstarter_num_cat=kickstarter %&gt;% group_by(main_category) %&gt;% summarise(cnt=n())\nkickstarter_success_perc=kickstarter %&gt;% filter(state==\"successful\") %&gt;% group_by(main_category) %&gt;% summarise(s_cnt=n())\nkickstarter_success_by_cat=left_join(kickstarter_success_perc,kickstarter_num_cat,by=\"main_category\") %&gt;% mutate(success_percentage=s_cnt/cnt*100) %&gt;% arrange(-success_percentage) %&gt;% select(-s_cnt,-cnt)\nknitr::kable(kickstarter_success_by_cat,col.names=c(\"Основная категория\",\"Процент успешных проектов\"))\n\nGraph Success of projects by category\n\nggplot(data=kickstarter)+geom_bar(aes(x=main_category,fill=state),stat=\"count\")+xlab('Название основной категории')+ylab('Количество проектов')+ggtitle('Успешность проектов в разных категориях')+coord_flip()+scale_fill_brewer(name=\"Состояние проекта\",labels=c(\"неуспешный\",\"успешный\"),palette=\"Pastel1\")\n\nGraph Success of projects by Launch hour\n\nggplot(data=kickstarter)+geom_bar(aes(x=launch_hour,fill=state),position=\"fill\")+ylab(\"Доля проектов\")+xlab(\"Час запуска\")+scale_fill_brewer(name=\"Состояние проекта\",labels=c(\"неуспешный\",\"успешный\"),palette=\"Pastel1\")+ggtitle(\"Успешность проектов по часу запуска\")\n\nGraph Success of projects by title length\n\nggplot(data=kickstarter)+geom_boxplot(aes(x=state,y=name_length, fill=state))+ylab(\"Длина названия проекта в символах\")+xlab(\"Состояние проекта\")+scale_x_discrete(labels=c(\"Неуспешный\", \"Успешный\"))+ggtitle(\"Успешность проекта по длине названия проекта\")+scale_fill_brewer(name=\"Состояние проекта\",labels=c(\"неуспешный\",\"успешный\"),palette=\"Pastel1\")\n\nGraph Success of projects by special symbols in the title\n\nggplot(data=kickstarter)+geom_bar(aes(x=name_has_marks,fill=state),position=\"fill\")+xlab(\"Наличие символов :,!,; в названии проекта\")+ylab(\"Доля проектов\")+ggtitle(\"Успешность проекта по наличию символов в названии\")+\nscale_fill_brewer(name=\"Состояние проекта\",labels=c(\"неуспешный\",\"успешный\"),palette=\"Pastel1\")+scale_x_discrete(labels=c(\"Нет\", \"Да\"))\n\nModel creation\n\n# \"зерно\" для генератора случайных чисел\nset.seed(1234) \n\n# Возьмем 80% как обучающие\nkickstarter_train = kickstarter %&gt;% dplyr::sample_frac(.8)\n\n# создаем тестовый набор данных\n# через анти-джойн, чтобы убрать все наблюдения, попавшие в обучающую выборку\nkickstarter_test = dplyr::anti_join(kickstarter, kickstarter_train, by = 'id') %&gt;% dplyr::select(-id)\n\nkickstarter_train = kickstarter_train %&gt;% dplyr::select(-id)\n\n## Построение сложной модели\n## Попробуем построить сложную модель, которая даст нам наибольшую точность. Будем использовать пакет rpart и все переменные, кроме id, name, date, deadline, launched, backers, launch date.\n\n### Необрезанное дерево\ntree1 &lt;- rpart(state ~ category+gen_category+main_category+usd_goal_real+day+country+month+launch_season+currency+period_length+launch_weekday+name_length+number_of_words+has_caps_in_name+n_caps_in_name+launch_dayPart+launch_hour+launch_is_weekend+cat_is_cat+name_has_marks+cat_length+cat_number_words+cat_first_letter+gen_cat_length+gen_cat_number_words+gen_cat_first_letter, method= \"class\",data = kickstarter_train, control = rpart.control(cp = 0.001)) \nrpart.plot::rpart.plot(tree1)\n\n#предсказываем\npred.kick_train1 = predict(tree1, type=\"class\")\n\n## **accuracy на тренировочной выборке**\nt1 = table(pred.kick_train1, kickstarter_train$state)\nacc1tr=(t1[1,1] + t1[2,2])/sum(t1)\nacc1tr\n\n## **accuracy на тестовой выборке**\npred.kick_test1 = predict(tree1, newdata = kickstarter_test, type=\"class\")\nt11 = table(pred.kick_test1, kickstarter_test$state)\nacc1ts=(t11[1,1] + t11[2,2])/sum(t11)\nacc1ts\n\n## Как мы видим, accuracy на тестовой выборке получилась ниже, но незначительно. Обрежем дерево по оптимальному значению cp\n\n## **строим таблицу cp**\nset.seed(1234)\ncp_tbl = printcp(tree1)\nset.seed(1234)\nmin_cp = cp_tbl %&gt;%\n  as.data.frame() %&gt;% \n  arrange(xerror) %&gt;% \n  head(n = 1)\nmin_cp\n\n## **обрезаем дерево через prune()** \ntree2 = prune(tree1, cp = 0.00102)\n\nrpart.plot::rpart.plot(tree2,fallen.leaves = FALSE,faclen=2)\n# делаем предсказание\npred.kick_train2=predict(tree2, type=\"class\")\n\n## **accuracy для тренировочной выборки**\nt2 = table(pred.kick_train2, kickstarter_train$state)\nacc2tr=(t2[1,1] + t2[2,2])/sum(t2)\nacc2tr\n\n## **accuracy для тестовой выборки**\n#предсказание\npred.kick_test2 = predict(tree2, kickstarter_test, type=\"class\")\n#accuracy\nt22 = table(pred.kick_test2, kickstarter_test$state)\nacc2ts=(t22[1,1] + t22[2,2])/sum(t22)\nacc2ts\n## Итак, мы построили сложную модель и достигли точности 0.7018865 на тренировочной и 0.6823584 для тестовой выборки. Попробуем построить менее сложную модель, но при этом попробуем достигнуть сходной точности.\n## Для этого с помощью команды summary посмотрим, какие переменные модель 1 посчитала наиболее важными и построим модель на их основе.\n\n## Less complicated model creation\n\n## **модель и accuracy для тренировочной выборки**\n\n\n#summary(tree2)\ntree0 &lt;- rpart(state ~ gen_category+category+main_category+usd_goal_real+number_of_words+cat_is_cat+launch_dayPart+period_length+cat_length+cat_number_words+cat_first_letter+gen_cat_length+gen_cat_number_words+gen_cat_first_letter+country+currency+launch_weekday+launch_hour, method=\"class\",data=kickstarter_train)\npred0 = predict(tree0, type=\"class\")\n#функция для переноса строк для названий переменных\nsplit.fun &lt;- function(x, labs, digits, varlen, faclen)\n{\n    # replace commas with spaces (needed for strwrap)\n    labs &lt;- gsub(\",\", \" \", labs)\n    for(i in 1:length(labs)) {\n        # split labs[i] into multiple lines\n        labs[i] &lt;- paste(strwrap(labs[i], width=32), collapse=\"\\n\")\n    }\n    labs\n}\nprp(tree0, split.fun=split.fun,fallen.leaves=FALSE,extra=4,cex=0.45)\n\nt0 = table(pred0, kickstarter_train$state)\n\n(t0[1,1] + t0[2,2])/sum(t0)\n\n## **accuracy для тестовой выборки**\npred00 = predict(tree0, kickstarter_test, type=\"class\")\n\nt = table(pred00, kickstarter_test$state)\n\n(t[1,1] + t[2,2])/sum(t)\n\nИтак, мы построили намного более простую модель, имеющую точность 0.6758971 для тренировочной и 0.6693204 для тестовой выборок.\n\na=(0.7018865-0.6758971)*100\nb=(0.6823584-0.6693204)*100\npaste(\"При этом, точность упрощенной модели на\",round(a,2),\"% (тренировочная выборка) и \", round(b,2),\"% (тестовая выборка) ниже, чем у на порядок более сложной модели\")\n\n[1] \"При этом, точность упрощенной модели на 2.6 % (тренировочная выборка) и  1.3 % (тестовая выборка) ниже, чем у на порядок более сложной модели\"\n\n\nImportance of variables in the model\n\ntreecat = c('category','gen_category','main_category','cat_first_letter','gen_cat_first_letter','cat_length','usd_goal_real','period_length','name_length','country','launch_dayPart','number_of_words','currency','launch_hour')\nmeaning = c('категория','категория и подкатегория проекта','основная категория','первая буква названия категории','первая буква названия подкатегории','длина названия категории в символах','целевая сумма проекта в долларах','длительность сборов','длина названия проекта в символах','страна','часть дня, в которую был запущен проект','количество слов в названии проекта','валюта','час запуска')\nimportance=c('25','22','12','11','10','7','4','3','1','1','1','1','1','1')\ncatable = data.frame(treecat, meaning,importance)\nknitr::kable(catable, col.names = c(\"Переменная\",\"Расшифровка названия\",\"Значимость\"))\n\n\n\n\n\n\n\n\n\nПеременная\nРасшифровка названия\nЗначимость\n\n\n\n\ncategory\nкатегория\n25\n\n\ngen_category\nкатегория и подкатегория проекта\n22\n\n\nmain_category\nосновная категория\n12\n\n\ncat_first_letter\nпервая буква названия категории\n11\n\n\ngen_cat_first_letter\nпервая буква названия подкатегории\n10\n\n\ncat_length\nдлина названия категории в символах\n7\n\n\nusd_goal_real\nцелевая сумма проекта в долларах\n4\n\n\nperiod_length\nдлительность сборов\n3\n\n\nname_length\nдлина названия проекта в символах\n1\n\n\ncountry\nстрана\n1\n\n\nlaunch_dayPart\nчасть дня, в которую был запущен проект\n1\n\n\nnumber_of_words\nколичество слов в названии проекта\n1\n\n\ncurrency\nвалюта\n1\n\n\nlaunch_hour\nчас запуска\n1"
+    "text": "Оценим метрики качества кластеров, по мере того, как мы разворачиваем наш датасет во все более высокую размерность, используя prime-logarithmic encoding. Каждый признак проецируется на базис логарифма первых d простых чисел (для d от 2-х до 11). Данные трансформируются во все более высокую размерность (26D, 39D, …, 143D).\nПосле проецирования, UMAP уменьшает размерность данных до 3D (или 6D в последнем случае), затем следует KMeans кластеризация. Мы рассчитываем индекс Адаптированной случайной меры (ARI) and коэффициент силуэта (Silhouette Score) на каждом шаге, чтобы оценить сохранение структуры классов и качество кластеризации.\nМы видим, что представления, закодированные с использованием простых чисел, последовательно обеспечивают значительно более высокие значения силуэтного коэффициента — максимум 0,708 достигается при 6D-кодировке, что указывает на заметно лучшее разделение кластеров. При этом индекс ARI остаётся высоким по всем измерениям, достигая пика в 0,911 при 11D, что говорит о хорошем соответствии выделенных кластеров истинным меткам классов.\n\nimport numpy as np\nimport pandas as pd\nfrom fractions import Fraction\nfrom tqdm import tqdm\nfrom scipy.optimize import lsq_linear\nfrom sklearn.datasets import load_wine\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.cluster import KMeans\nfrom sklearn.metrics import adjusted_rand_score, silhouette_score\nfrom umap import UMAP\nimport warnings\nwarnings.filterwarnings(\"ignore\")\n\n# -------------------------------\n# 1. Load Data & Setup\n# -------------------------------\ndataset = load_wine()\nX_raw = dataset.data\ny_true = dataset.target\n\n# First 11 primes\nprime_list = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]\nlog_primes = np.log(prime_list)\n\n# Scalar projection function\ndef project_scalar(val, log_basis, bounds=(-6, 6)):\n    try:\n        log_target = np.log(float(val))\n        res = lsq_linear(log_basis.reshape(1, -1), [log_target], bounds=bounds, lsmr_tol='auto')\n        return res.x\n    except:\n        return np.zeros(len(log_basis))\n\n# Full dataset projection into prime space\ndef project_dataset_prime_space(X_raw, dim):\n    basis = log_primes[:dim]\n    projected = []\n    X_frac = np.vectorize(Fraction)(X_raw)\n    \n    for sample in X_frac:\n        sample_proj = []\n        for val in sample:\n            vec = project_scalar(val, basis)\n            sample_proj.extend(vec)\n        projected.append(sample_proj)\n    \n    return np.array(projected)\n\n# -------------------------------\n# 2. Evaluate Across Prime Dimensions\n# -------------------------------\nresults = []\n\n# Evaluate raw data first\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X_raw)\nkmeans = KMeans(n_clusters=3, random_state=42, n_init='auto')\n\ny_pred_raw = kmeans.fit_predict(X_scaled)\nari_raw = adjusted_rand_score(y_true, y_pred_raw)\nsil_raw = silhouette_score(X_scaled, y_pred_raw)\n\nresults.append({\n    \"Размерность\": \"Оригинальная (13D)\",\n    \"Количество признаков\": 13,\n    \"ARI\": ari_raw,\n    \"Silhouette\": sil_raw\n})\n\n# Now evaluate prime projections from 2D to 11D\nfor dim in range(2, 12):\n    # Project to prime-dim space\n    X_prime = project_dataset_prime_space(X_raw, dim)\n    total_features = dim * X_raw.shape[1]  # e.g., 2 * 13 = 26D\n    \n    # Reduce via UMAP (use 3 components unless dim==11 → use 6)\n    umap_dim = 6 if dim == 11 else 3\n    umap_model = UMAP(n_components=umap_dim, random_state=7)\n    X_umap = umap_model.fit_transform(X_prime)\n    \n    # Cluster\n    y_pred = kmeans.fit_predict(X_umap)\n    \n    # Metrics\n    ari = adjusted_rand_score(y_true, y_pred)\n    sil = silhouette_score(X_umap, y_pred)\n    \n    results.append({\n        \"Размерность\": f\"Prime {dim}D\",\n        \"Количество признаков\": total_features,\n        \"ARI\": ari,\n        \"Silhouette\": sil\n    })\n\n# -------------------------------\n# 3. Display Compact Results Table\n# -------------------------------\nresults_df = pd.DataFrame(results)\npd.set_option('display.precision', 3)\nprint(\"\\Качество Кластеризации vs. Размерность\\n\")\nprint(results_df.to_string(index=False))\n\nC:\\Users\\Admin\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\tqdm\\auto.py:21: TqdmWarning:\n\nIProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html\n\n\n\n\\Качество Кластеризации vs. Размерность\n\n       Размерность  Количество признаков   ARI  Silhouette\nОригинальная (13D)                    13 0.897       0.285\n          Prime 2D                    26 0.830       0.656\n          Prime 3D                    39 0.830       0.684\n          Prime 4D                    52 0.845       0.657\n          Prime 5D                    65 0.894       0.678\n          Prime 6D                    78 0.814       0.708\n          Prime 7D                    91 0.830       0.662\n          Prime 8D                   104 0.845       0.664\n          Prime 9D                   117 0.845       0.674\n         Prime 10D                   130 0.830       0.672\n         Prime 11D                   143 0.911       0.667"
   }
 ]
